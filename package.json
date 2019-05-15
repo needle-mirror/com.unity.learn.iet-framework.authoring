@@ -1,0 +1,18 @@
+{
+  "name": "com.unity.learn.iet-framework.authoring",
+  "displayName": "Interactive Tutorial Authoring",
+  "version": "0.1.11-preview",
+  "unity": "2018.3",
+  "description": "Authoring tools for In-Editor Tutorials.",
+  "keywords": [
+    "tutorials"
+  ],
+  "dependencies": {
+    "com.unity.learn.iet-framework": "0.1.16-preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UnityTech/iet-package.git",
+    "revision": "5c42525c172440d95642b7aae0602d4537ea9c30"
+  }
+}
