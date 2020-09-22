@@ -1,10 +1,10 @@
 {
-    "name": "Unity.InternalAPIEditorBridgeDev.005",
+    "name": "Unity.NAME.Editor",
     "references": [
+        "Localization",
         "Unity.InteractiveTutorials.Core",
         "UnityEditor.InteractiveTutorialsFramework"
     ],
-    "optionalUnityReferences": [],
     "includePlatforms": [
         "Editor"
     ],
@@ -13,5 +13,7 @@
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

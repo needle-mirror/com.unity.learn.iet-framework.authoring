@@ -4,21 +4,93 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.3] - 2020-09-22
+### Added
+- Menu items for creating light and dark tutorial style sheets.
+- Functionality and menu items for creating Ready-to-Use Tutorial Project and Ready-to-Use Tutorial.
+- Added `TutorialCallbacksHandler` script, one can utilize `CommonTutorialCallbacksHandler` instance or make a copy and modify these for own needs.
+- User guide for tutorial authoring can be found from the `UserGuide` folder.
+
+### Changed
+- Raised the required Unity version to 2019.4.
+- Updated Tutorial Framework dependency to 1.1.0.
+- Moved "Run Startup Code" to be the last button of the toolbar, allowing "Preview Masking" to be visible and accessible increasing the window width.
+- Unit tests are omitted from the package.
+
+### Fixed
+- Cleaned up PO files from dummy test translations.
+
+## [0.6.2] - 2020-08-06
+### Changed
+- Updated Tutorial Framework dependency to 1.0.2.
+
+## [0.6.1] - 2020-07-22
+### Fixed
+- Updated Tutorial Framework dependency to 1.0.0 in order to fix compilation.
+
+## [0.6.0] - 2020-07-17
+### Added
+- Functionality to extract the project's tutorial structure into a text file (_Tutorials_ > _Extract Tutorial Structure of the Project..._).
+
+### Changed
+- `GenesisHelperUtils`, `InternalMenuItem`, `TutorialExporter`, and `TutorialExporterWindow` classes are now private instead of public.
+
+## [0.5.1] - 2020-07-06
+### Added
+- "Select Tutorial" and "Select Page" buttons in the `TutorialWindow`'s toolbar.
+- A menu item and a button in `TutorialPageEditor` for creating callback scripts and accompanying assets for handling the various recently added events of the tutorial assets.
+
+### Changed
+- Updated to IET Framework 0.5.1.
+- The package is now known as Tutorial Authoring Tools instead of IET Authoring Tools.
+
+### Removed
+- Removed menu item for creating empty tutorial pages, the other page templates should be used instead.
+
+## [0.5.0] - 2020-06-23
+### Changed
+- Updated to IET Framework 0.5.0.
+
+## [0.4.0] - 2020-06-02
+### Added
+- Three new menu items for creating tutorial pages under _Assets_ > _Create_ > _Tutorials_ > _Tutorial Page_.
+- _Tutorials_ > _Layout_ > _Window Size_ menu items for setting the size of the main window quickly.
+- _Assets_ > _Set Dirty_ menu item for conveniently dirtying tutorial assets while refactoring.
+
+## [0.3.0] - 2020-03-25
+### Changed
+- Raised the required Unity version to 2019.3.
+
+## [0.2.1] - 2019-11-11
+### Added
+- Added "Clear InitCodeMarker (Internal)" menu item and functionality.
+- Added missing license file for the package.
+
+## [0.2.0] - 2019-10-21
+### Changed
+- Aligned version with the IET Framework's version.
+ 
+## [0.1.12] - 2019-10-02
+### Changed
+- Do not save the state of `TutorialWindow` when saving window layout.
+### Added
+- Menu items for opening the welcome dialog and running the first-launch experience.
+
 ## [0.1.11] - 2019-05-15
 ### Changed
- - bumping dependency version
+- bumping dependency version
 
 ## [0.1.10] - 2019-03-04
 ### Changed
- - bumping dependency version
+- bumping dependency version
 
 ## [0.1.9] - 2019-02-12
 ### Changed
- - bumping dependency version
+- bumping dependency version
 
 ## [0.1.8] - 2019-02-04
 ### Changed
-- Change export tutorial to include separate Package Manager manifest file in exported .unitypackage
+- Change export tutorial to include separate Package Manager manifest file in exported `.unitypackage`
 - Change export tutorial to not compile assembly for scripts that need internals
 
 ### Added
@@ -34,8 +106,8 @@ and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.1.4] - 2018-12-11
 ### Fixed
- - Fixed build script
+- Fixed build script
 
 ## [0.1.3] - 2018-12-10
 ### Added
-- Add Tutorials > Open Tutorials Window menu item.
+- Add *Tutorials > Open Tutorials* menu item.

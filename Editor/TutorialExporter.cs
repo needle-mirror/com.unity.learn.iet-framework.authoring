@@ -1,18 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Threading;
 using UnityEditor;
 using UnityEngine;
 
-namespace Unity.InteractiveTutorials
+namespace Unity.InteractiveTutorials.Authoring.Editor
 {
     // Initialize on load to surface potential reflection issues immediately
     [InitializeOnLoad]
-    public static class TutorialExporter
+    static class TutorialExporter
     {
         const string k_PackagesDirector = "Packages";
         const string k_ManifestPath = "Packages/manifest.json";
@@ -21,13 +19,11 @@ namespace Unity.InteractiveTutorials
         const string k_RiderPluginPath = "Assets/Plugins/Editor/JetBrains";
 
         static MethodInfo s_ExportPackageAndPackageManagerManifestMethod;
-
-        static bool s_ExportingPackage;
         static string s_PackagePath;
         static DateTime s_PackagePathLastWriteTime;
         static Action<bool> s_ExportPackageCallback;
 
-        public static bool exportInProgress => s_ExportingPackage;
+        public static bool exportInProgress { get; private set; }
 
         static TutorialExporter()
         {
@@ -70,7 +66,7 @@ namespace Unity.InteractiveTutorials
 
         internal static void ExportPackageForTutorial(string packagePath, Tutorial tutorial, IEnumerable<string> additionalAssets, Action<bool> callback)
         {
-            if (s_ExportingPackage)
+            if (exportInProgress)
             {
                 Debug.LogError($"Package export already in progress.");
                 callback(false);
@@ -135,7 +131,7 @@ namespace Unity.InteractiveTutorials
 
             // Exporting package is asynchronous
             // Wait until the package has been written to disk before restoring package manifest
-            s_ExportingPackage = true;
+            exportInProgress = true;
             s_PackagePath = packagePath;
             s_PackagePathLastWriteTime = packagePathLastWriteTime;
             s_ExportPackageCallback = callback;
@@ -155,7 +151,7 @@ namespace Unity.InteractiveTutorials
 
                 EditorApplication.UnlockReloadAssemblies();
 
-                s_ExportingPackage = false;
+                exportInProgress = false;
                 s_ExportPackageCallback(true);
             }
         }

@@ -1,4 +1,4 @@
-# In Editor Interactive Tutorials Authoring Tools
+# Tutorial Authoring Tools
 ---------
 This package makes tooling available to be able to create Tutorials.
 
@@ -8,26 +8,23 @@ This package makes tooling available to be able to create Tutorials.
 Follow those steps to enable authoring tools to your project
 
 - Add `com.unity.learn.iet-framework.authoring` to your `dependencies` list to your project `manifest.json`
-- Add `com.unity.learn.iet-framework.authoring` to the `testables` list in your `manifest.json`
-- point your `manifest.json` to the staging registry
+- point your `manifest.json` to the candidates registry
 
 Example:
 
     {
         "dependencies": {
-            "com.unity.learn.iet-framework": "0.1.6-preview",
-            "com.unity.learn.iet-framework.authoring": "0.1.2-preview"
+            "com.unity.learn.iet-framework": "1.1.0",
+            "com.unity.learn.iet-framework.authoring": "0.6.3-preview"
         },
-        "testables": [
-            "com.unity.learn.iet-framework.authoring"
-        ],
-        "registry": "https://staging-packages.unity.com"
+        "registry": "https://artifactory.prd.cds.internal.unity3d.com/artifactory/api/npm/upm-candidates"
     }
-Make sure the framework and the authoring tools have compatible versions, most likely the latest version of each package.
+Make sure the Framework and the Authoring Tools have compatible versions, most likely the latest version of each package.
 
 ## Authoring tools
 This package allows you to create new Assets related to Tutorials:
 
+- Tutorial Container
 - Tutorial
 - Tutorial Page
 - Tutorial Styles

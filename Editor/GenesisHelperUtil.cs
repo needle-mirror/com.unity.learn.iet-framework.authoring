@@ -2,30 +2,37 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
-namespace Unity.InteractiveTutorials
+namespace Unity.InteractiveTutorials.Authoring.Editor
 {
-    public class GenesisHelperUtils
+    class GenesisHelperUtils
     {
         [MenuItem("Tutorials/Genesis/Print all statuses")]
-        public static void PrintAllStatuses()
+        static void PrintAllStatuses()
         {
             GenesisHelper.PrintAllTutorials();
         }
 
         [MenuItem("Tutorials/Genesis/Clear all statuses")]
-        public static void ClearAllStatuses()
+        static void ClearAllStatuses()
         {
             if (EditorUtility.DisplayDialog("", "Do you want to clear progress of every tutorial?", "Clear", "Cancel"))
             {
                 GenesisHelper.GetAllTutorials((r) =>
+                {
+                    var ids = r.Select(a => a.lessonId);
+                    foreach (var id in ids)
                     {
-                        var ids = r.Select(a => a.lessonId);
-                        foreach (var id in ids)
-                        {
-                            GenesisHelper.LogTutorialStatusUpdate(id, " ");
-                        }
-                        Debug.Log("Lesson statuses cleared");
-                    });
+                        GenesisHelper.LogTutorialStatusUpdate(id, " ");
+                    }
+                    Debug.Log("Lesson statuses cleared");
+                });
+
+                // Refresh the window, if it's open.
+                var wnd = TutorialManager.GetTutorialWindow();
+                if (wnd)
+                {
+                    wnd.MarkAllTutorialsUncompleted();
+                }
             }
         }
     }

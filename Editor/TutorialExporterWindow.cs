@@ -3,17 +3,16 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using Unity.InteractiveTutorials;
 using UnityEditor;
 using UnityEngine;
 
 using Debug = UnityEngine.Debug;
 
-namespace Unity.InteractiveTutorials
+namespace Unity.InteractiveTutorials.Authoring.Editor
 {
-    public class TutorialExporterWindow : EditorWindow
+    // NOTE ProjectMode.IsAuthoringMode() dependes on the full name of this class.
+    // If renaming this class or its namespace, make sure to adjust ProjectMode.IsAuthoringMode().
+    class TutorialExporterWindow : EditorWindow
     {
         [SerializeField]
         Tutorial m_Tutorial;
