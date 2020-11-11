@@ -21,7 +21,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
             TutorialWindow.CreateWindow();
         }
 
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Extract Localizable Strings for the Project (Internal)...")]
+        [MenuItem(TutorialWindowMenuItem.MenuPath + "Localization/Extract Localizable Strings for the Project...")]
         static void ExtractLocalizableStrings()
         {
             string poFolderPath = EditorUtility.OpenFolderPanel(
@@ -76,9 +76,10 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
                 }
             }
 
-            // Use Reference-UntranslatedString pair as a key to get rid of duplicate entries.
+            // Get rid of duplicate msgids, omit empty msgids as they can cause problems for some PO editors
             var uniqueEntries = entries
-                .GroupBy(entry => new { entry.Reference, entry.UntranslatedString })
+                .Where(entry => entry.IsValid())
+                .GroupBy(entry => entry.UntranslatedString)
                 .Select(group => group.FirstOrDefault());
 
             foreach (var code in SupportedLanguages.Values)
@@ -162,7 +163,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
             var localizableStringType = typeof(LocalizableString);
 
             var localizableProps = obj.GetType().GetProperties(bindedTypes)
-                .Where(pi => pi.PropertyType == localizableStringType)
+                .Where(pi => pi.PropertyType == localizableStringType && pi.CanWrite)
                 .Select(pi => new POEntry
                 {
                     Reference = $"{obj.GetType().Name}.{pi.Name}",

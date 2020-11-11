@@ -8,3 +8,17 @@ msgstr ""
 "X-Generator: po-conv\n"
 "Language: zh-hans\n"
 "Project-Id-Version: com.unity.learn.iet-framework.authoring@0.4.0-preview\n"
+
+msgid "The created tutorial switch page doesn't have a Tutorial assiged. Please assign one if you want to be able to continue from the tutorial to another."),
+msgstr ""
+
+msgid "The created tutorial does not belong to any TutorialContainer. The Lesson Id will be 0."),
+msgstr ""
+
+msgid "The created tutorial doesn't have a Window Layout assigned. Please assign one to it if you wish to utilise it."), tutorial);
+msgstr ""
+
+msgid "The created tutorial doesn't have a Scene assiged. Please assign one to it if you want to load a specific scene when the tutorial starts"
+msgstr ""
+
+# TODO entries for menu items missing

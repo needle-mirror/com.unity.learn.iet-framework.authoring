@@ -2,8 +2,6 @@
 ---------
 This package makes tooling available to be able to create Tutorials.
 
-**This package relies on Unity internals and is not available on production**
-
 ## Setup
 Follow those steps to enable authoring tools to your project
 

@@ -12,6 +12,8 @@ using UnityEngine.UIElements;
 
 namespace Unity.InteractiveTutorials.Authoring.Editor
 {
+    using static Localization;
+
     static class TutorialAssetsUtil
     {
         const string k_Menu = "Assets/Create/Tutorials/";
@@ -50,9 +52,8 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
             TutorialWelcomePage welcomePage = CreateTutorialWelcomePage($"{path}/Tutorial Welcome Page.asset");
 
             TutorialContainer container = CreateTutorialContainer($"{path}/Tutorials.asset");
-            container.Title = "Title";
-            container.ProjectName = "Project name";
-            container.Description = "Description";
+            container.ProjectName = "Title";
+            container.Title = "Subtitle";
             CreateTutorialFlow(null, container);
 
             TutorialProjectSettings tutorialProjectSettings = CreateTutorialProjectSettings($"{path}/Tutorial Project Settings.asset");
@@ -95,8 +96,8 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
 
             //TutorialPage tutorialSwitchPage = CreateTutorialPageWithSwitch("15-LastPage", tutorial);
             Debug.LogWarning(
-                "The created tutorial switch page doesn't have a Tutorial assiged. " +
-                "Please assign one if you want to be able to continue from the tutorial to another.",
+                Tr("The created tutorial switch page doesn't have a Tutorial assiged. " +
+                    "Please assign one if you want to be able to continue from the tutorial to another."),
                 tutorialSwitchPage
             );
 
@@ -104,7 +105,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
             tutorial.AddPage(instructivePage);
             tutorial.AddPage(tutorialSwitchPage);
 
-            tutorial.tutorialTitle = "New Tutorial";
+            tutorial.TutorialTitle = "New Tutorial";
             if (container)
             {
                 TutorialContainer.Section lastTutorial = null;
@@ -136,7 +137,10 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
             else
             {
                 tutorial.lessonId = "0";
-                Debug.LogWarning("The created tutorial doesn't have a TutorialContainer assigned. The lessonID will be 0.", tutorial);
+                Debug.LogWarning(
+                    Tr("The created tutorial does not belong to any TutorialContainer. The Lesson Id will be 0."),
+                    tutorial
+                );
             }
 
             if (windowLayout)
@@ -145,16 +149,16 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
             }
             else
             {
-                Debug.LogWarning("The created tutorial doesn't have a Window Layout assigned. Please assign one to it", tutorial);
+                Debug.Log(Tr("The created tutorial doesn't have a Window Layout assigned. Please assign one to it if you wish to utilise it."), tutorial);
             }
             tutorial.version = "1";
             tutorial.exitBehavior = Tutorial.ExitBehavior.CloseWindow;
             tutorial.skipTutorialBehavior = Tutorial.SkipTutorialBehavior.SameAsExitBehavior;
 
             EnsureAssetChangesAreSaved(tutorial);
-            Debug.LogWarning(
-                "The created tutorial doesn't have a Scene assiged. " +
-                "Please assign one to it if you want to load a specific scene when the tutorial starts",
+            Debug.Log(
+                Tr("The created tutorial doesn't have a Scene assiged. " +
+                    "Please assign one to it if you want to load a specific scene when the tutorial starts"),
                 tutorial
             );
             return tutorial;
@@ -162,7 +166,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
 
         // NOTE: typically two functions are provided for creating a particular tutorial asset:
         // 1) CreateXXX() -- creates an asset to currently active path and expects the user to input a new name for the asset
-        // 2) CreateXXX(string assetPath) -- creates an asset to arbitrary path, does not expect any user to input
+        // 2) CreateXXX(string assetPath) -- creates an asset to arbitrary path, does not expect any user input
 
         [MenuItem(k_TutorialMenu + "Empty Tutorial")]
         static Tutorial CreateEmptyTutorial() => CreateEmptyTutorial(null);
@@ -227,6 +231,10 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
         static TutorialPage CreateTutorialPage(IEnumerable<TutorialParagraph> paragraphs, string assetPath)
         {
             var asset = ScriptableObject.CreateInstance<TutorialPage>();
+            // TODO regression in 1.2: TutorialPage not default-initializing NextButton with "Next"
+            // and DoneButton with "Done".
+            asset.NextButton = "Next";
+            asset.DoneButton = "Done";
             asset.paragraphs.SetItems(paragraphs);
             if (assetPath == null)
             {
@@ -509,18 +517,18 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
         }
 
         static TutorialParagraph CreateImageParagraph(Texture2D image = null) =>
-            new TutorialParagraph { m_Type = ParagraphType.Image, image = image };
+            new TutorialParagraph { Type = ParagraphType.Image, Image = image };
 
         static TutorialParagraph CreateVideoParagraph(UnityEngine.Video.VideoClip video = null) =>
-            new TutorialParagraph { m_Type = ParagraphType.Video, video = video };
+            new TutorialParagraph { Type = ParagraphType.Video, Video = video };
 
         static TutorialParagraph CreateNarrativeParagraph(string title, string description) =>
-            new TutorialParagraph { m_Type = ParagraphType.Narrative, summary = title, Description = description };
+            new TutorialParagraph { Type = ParagraphType.Narrative, Title = title, Text = description };
 
         static TutorialParagraph CreateInstructionParagraph(string title, string description) =>
-            new TutorialParagraph { m_Type = ParagraphType.Instruction, InstructionTitle = title, InstructionText = description };
+            new TutorialParagraph { Type = ParagraphType.Instruction, Title = title, Text = description };
 
         static TutorialParagraph CreateTutorialSwitchParagraph(Tutorial nextTutorial, string nextButtonText) =>
-            new TutorialParagraph { m_Type = ParagraphType.SwitchTutorial, m_Tutorial = nextTutorial, m_TutorialButtonText = nextButtonText };
+            new TutorialParagraph { Type = ParagraphType.SwitchTutorial, m_Tutorial = nextTutorial, Text = nextButtonText };
     }
 }

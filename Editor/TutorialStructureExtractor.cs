@@ -8,14 +8,14 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
 {
     static class TutorialStructureExtractor
     {
-        [MenuItem("Tutorials/Extract Tutorial Structure of the Project...")]
+        [MenuItem("Tutorials/Localization/Extract Tutorial Structure of the Project...")]
         static void Extract()
         {
             const string fileExt = "txt";
             var filepath = EditorUtility.SaveFilePanel(
                 Localization.Tr("Extract Tutorial Structure as Text"),
                 "",
-                $"{Application.productName} Tutorial Structure.{fileExt}",
+                $"{Application.productName} Tutorial Structure {LocalizationDatabaseProxy.currentEditorLanguage}.{fileExt}",
                 fileExt
             );
             if (filepath.IsNullOrEmpty())
@@ -32,9 +32,9 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
                         var titleLength = WriteField(sw, indentLevel, "Welcome Dialog");
                         sw.WriteLine(Underlining(indentLevel, titleLength));
                         ++indentLevel;
-                        WriteField(sw, indentLevel, nameof(pg.WindowTitle), pg.WindowTitle.Untranslated);
-                        WriteField(sw, indentLevel, nameof(pg.Title), pg.Title.Untranslated);
-                        WriteField(sw, indentLevel, nameof(pg.Description), pg.Description.Untranslated);
+                        WriteField(sw, indentLevel, nameof(pg.WindowTitle), pg.WindowTitle);
+                        WriteField(sw, indentLevel, nameof(pg.Title), pg.Title);
+                        WriteField(sw, indentLevel, nameof(pg.Description), pg.Description);
 
                         WriteField(sw, indentLevel, "Buttons:");
                         ++indentLevel;
@@ -62,7 +62,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
                 foreach (var tutorial in FindAssets<Tutorial>())
                 {
                     var tutorialNumber = tutorialIds.FindIndex(id => id == tutorial.lessonId) + 1;
-                    var titleLength = WriteField(sw, indentLevel, $"Tutorial {tutorialNumber}/{tutorialIds.Count}", tutorial.tutorialTitle);
+                    var titleLength = WriteField(sw, indentLevel, $"Tutorial {tutorialNumber}/{tutorialIds.Count}", tutorial.TutorialTitle);
                     sw.WriteLine(Underlining(indentLevel, titleLength));
 
                     int pageNumber = 0;
@@ -78,17 +78,17 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
                         // Tutorial switch paragraph is optional
                         var switchTutorial = pg.paragraphs.ElementAtOrDefault(3);
 
-                        WriteField(sw, indentLevel, "Narrative Title", narrative.summary);
-                        WriteField(sw, indentLevel, "Narrative Text", narrative.Description);
+                        WriteField(sw, indentLevel, "Narrative Title", narrative.Title);
+                        WriteField(sw, indentLevel, "Narrative Text", narrative.Text);
 
                         if (instruction != null)
                         {
-                            WriteField(sw, indentLevel, "Instruction Title", instruction.InstructionTitle);
-                            WriteField(sw, indentLevel, "Instruction Text", instruction.InstructionText);
+                            WriteField(sw, indentLevel, "Instruction Title", instruction.Title);
+                            WriteField(sw, indentLevel, "Instruction Text", instruction.Text);
                         }
 
                         if (switchTutorial != null)
-                            WriteField(sw, indentLevel, "Tutorial Button", switchTutorial.m_TutorialButtonText);
+                            WriteField(sw, indentLevel, "Tutorial Button", switchTutorial.Text);
 
                         --indentLevel;
                         sw.WriteLine();
