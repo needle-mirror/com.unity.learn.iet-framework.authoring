@@ -1,7 +1,7 @@
 {
-    "name": "Unity.InternalAPIEditorBridgeDev.005",
+    "name": "Unity.Tutorials.Authoring.Editor",
     "references": [
-        "Unity.InteractiveTutorials.Core",
+        "Unity.Tutorials.Core.Editor",
         "UnityEditor.InteractiveTutorialsFramework"
     ],
     "optionalUnityReferences": [],

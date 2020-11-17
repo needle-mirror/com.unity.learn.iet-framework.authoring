@@ -1,8 +1,8 @@
 {
-    "name": "Unity.InteractiveTutorials.Authoring.Editor.Tests",
+    "name": "Unity.Tutorials.Authoring.Editor.Tests",
     "references": [
+        "Unity.Tutorials.Authoring.Editor",
         "UnityEditor.TestRunner",
-        "Unity.InternalAPIEditorBridgeDev.005",
         "UnityEngine.TestRunner"
     ],
     "includePlatforms": [

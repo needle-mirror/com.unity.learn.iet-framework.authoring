@@ -3,8 +3,9 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Unity.Tutorials.Core.Editor;
 
-namespace Unity.InteractiveTutorials.Authoring.Editor
+namespace Unity.Tutorials.Authoring.Editor
 {
     static class TutorialStructureExtractor
     {
@@ -61,22 +62,22 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
 
                 foreach (var tutorial in FindAssets<Tutorial>())
                 {
-                    var tutorialNumber = tutorialIds.FindIndex(id => id == tutorial.lessonId) + 1;
+                    var tutorialNumber = tutorialIds.FindIndex(id => id == tutorial.LessonId) + 1;
                     var titleLength = WriteField(sw, indentLevel, $"Tutorial {tutorialNumber}/{tutorialIds.Count}", tutorial.TutorialTitle);
                     sw.WriteLine(Underlining(indentLevel, titleLength));
 
                     int pageNumber = 0;
 
-                    foreach (var pg in tutorial.pages)
+                    foreach (var pg in tutorial.Pages)
                     {
-                        WriteField(sw, indentLevel, $"Page {++pageNumber}/{tutorial.pageCount}:");
+                        WriteField(sw, indentLevel, $"Page {++pageNumber}/{tutorial.PageCount}:");
                         ++indentLevel;
                         // first paragraph (index 0) is the mandatory media header
-                        var narrative = pg.paragraphs.ElementAtOrDefault(1);
+                        var narrative = pg.Paragraphs.ElementAtOrDefault(1);
                         // Instruction paragraph is optional
-                        var instruction = pg.paragraphs.ElementAtOrDefault(2);
+                        var instruction = pg.Paragraphs.ElementAtOrDefault(2);
                         // Tutorial switch paragraph is optional
-                        var switchTutorial = pg.paragraphs.ElementAtOrDefault(3);
+                        var switchTutorial = pg.Paragraphs.ElementAtOrDefault(3);
 
                         WriteField(sw, indentLevel, "Narrative Title", narrative.Title);
                         WriteField(sw, indentLevel, "Narrative Text", narrative.Text);

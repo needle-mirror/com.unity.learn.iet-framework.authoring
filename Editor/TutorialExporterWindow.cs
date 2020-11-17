@@ -5,13 +5,15 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Unity.Tutorials.Core.Editor;
 
 using Debug = UnityEngine.Debug;
 
-namespace Unity.InteractiveTutorials.Authoring.Editor
+namespace Unity.Tutorials.Authoring.Editor
 {
     // NOTE ProjectMode.IsAuthoringMode() dependes on the full name of this class.
     // If renaming this class or its namespace, make sure to adjust ProjectMode.IsAuthoringMode().
+    // TODO Decide what to do with this class
     class TutorialExporterWindow : EditorWindow
     {
         [SerializeField]
@@ -29,14 +31,14 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
         [SerializeField]
         bool m_AutoOpen = true;
 
-        [MenuItem("Tutorials/Export Tutorial...")]
+        //TODO [MenuItem("Tutorials/Export Tutorial...")]
         public static void OpenWindow()
         {
             var window = GetWindow<TutorialExporterWindow>();
             window.Show();
         }
 
-        [MenuItem("Tutorials/Export all with default settings")]
+        //TODO [MenuItem("Tutorials/Export all with default settings")]
         public static void ExportAll()
         {
             var guids = AssetDatabase.FindAssets("t:Tutorial", null);
@@ -54,7 +56,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
 
                 var guid = guids[index++];
                 var assetPath = AssetDatabase.GUIDToAssetPath(guid);
-                var instanceID = AssetDatabase.GetMainAssetInstanceID(assetPath);
+                var instanceID = -1;// TODO internal access: AssetDatabase.GetMainAssetInstanceID(assetPath);
                 var tutorial = (Tutorial)EditorUtility.InstanceIDToObject(instanceID);
                 var packagePath = Path.Combine(path, tutorial.name + ".unitypackage");
 
@@ -130,12 +132,12 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
-            var forceDisableMask = EditorPrefs.GetBool("Unity.InteractiveTutorials.forceDisableMask", false);
+            var forceDisableMask = EditorPrefs.GetBool("Unity.Tutorials.Core.Editor.forceDisableMask", false);
             EditorGUI.BeginChangeCheck();
             forceDisableMask = EditorGUILayout.ToggleLeft("Force Disable Masking in this machine", forceDisableMask);
             if (EditorGUI.EndChangeCheck())
             {
-                EditorPrefs.SetBool("Unity.InteractiveTutorials.forceDisableMask", forceDisableMask);
+                EditorPrefs.SetBool("Unity.Tutorials.Core.Editor.forceDisableMask", forceDisableMask);
             }
         }
 

@@ -1,8 +1,9 @@
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using Unity.Tutorials.Core.Editor;
 
-namespace Unity.InteractiveTutorials.Authoring.Editor
+namespace Unity.Tutorials.Authoring.Editor
 {
     /// <summary>
     /// A set of common tutorial callbacks that Tutorial creators can use.

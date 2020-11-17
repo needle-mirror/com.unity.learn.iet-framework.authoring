@@ -4,7 +4,7 @@
 [assembly: UnityEditor.Localization.Editor.Localization]
 #endif
 
-namespace Unity.InteractiveTutorials.Authoring
+namespace Unity.Tutorials.Authoring.Editor
 {
     static class Localization
     {

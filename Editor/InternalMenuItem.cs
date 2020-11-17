@@ -4,10 +4,11 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using Unity.Tutorials.Core.Editor;
 
-using static Unity.InteractiveTutorials.POFileUtils;
+using static Unity.Tutorials.Core.Editor.POFileUtils;
 
-namespace Unity.InteractiveTutorials.Authoring.Editor
+namespace Unity.Tutorials.Authoring.Editor
 {
     static class InternalMenuItem
     {
@@ -70,7 +71,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
             {
                 entries.AddRange(ExtractFieldsAndPropertiesForLocalization(pg));
 
-                foreach (var paragraph in pg.paragraphs)
+                foreach (var paragraph in pg.Paragraphs)
                 {
                     entries.AddRange(ExtractFieldsAndPropertiesForLocalization(paragraph));
                 }
@@ -89,7 +90,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
         [MenuItem(TutorialWindowMenuItem.MenuPath + "Open Welcome Dialog (Internal)")]
         static void OpenWelcomeDialog()
         {
-            var welcomePage = TutorialProjectSettings.instance.WelcomePage;
+            var welcomePage = TutorialProjectSettings.Instance.WelcomePage;
             if (welcomePage != null)
                 TutorialModalWindow.TryToShow(welcomePage, () => {});
             else

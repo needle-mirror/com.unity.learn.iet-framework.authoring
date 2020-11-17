@@ -2,8 +2,7 @@
     "name": "Unity.NAME.Editor",
     "references": [
         "Localization",
-        "Unity.InteractiveTutorials.Core",
-        "UnityEditor.InteractiveTutorialsFramework"
+        "Unity.Tutorials.Core.Editor"
     ],
     "includePlatforms": [
         "Editor"

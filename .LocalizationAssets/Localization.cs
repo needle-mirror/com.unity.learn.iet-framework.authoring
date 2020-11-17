@@ -6,7 +6,7 @@
 
 namespace Unity.NAME.Editor
 {
-    public static class Localization
+    static class Localization
     {
         public static string Tr(string str) =>
 #if UNITY_2020_1_OR_NEWER

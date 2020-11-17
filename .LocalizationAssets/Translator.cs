@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Unity.InteractiveTutorials;
+using Unity.Tutorials.Core.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -82,8 +82,8 @@ namespace Unity.NAME.Editor
             TutorialWelcomePage.TutorialWelcomePageModified += TranslateTutorialWelcomePage;
             TutorialContainer.TutorialContainerModified += TranslateTutorialContainer;
             Tutorial.TutorialModified += TranslateTutorial;
-            Tutorial.tutorialPagesModified += TranslateTutorial;
-            TutorialPage.tutorialPageNonMaskingSettingsChanged += OnTutorialPageNonMaskingSettingsChanged;
+            Tutorial.TutorialPagesModified += TranslateTutorial;
+            TutorialPage.TutorialPageNonMaskingSettingsChanged += OnTutorialPageNonMaskingSettingsChanged;
         }
 
         static void UnsubscribeFromModifications()
@@ -91,8 +91,8 @@ namespace Unity.NAME.Editor
             TutorialWelcomePage.TutorialWelcomePageModified -= TranslateTutorialWelcomePage;
             TutorialContainer.TutorialContainerModified -= TranslateTutorialContainer;
             Tutorial.TutorialModified -= TranslateTutorial;
-            Tutorial.tutorialPagesModified -= TranslateTutorial;
-            TutorialPage.tutorialPageNonMaskingSettingsChanged -= OnTutorialPageNonMaskingSettingsChanged;
+            Tutorial.TutorialPagesModified -= TranslateTutorial;
+            TutorialPage.TutorialPageNonMaskingSettingsChanged -= OnTutorialPageNonMaskingSettingsChanged;
         }
 
         static void OnTutorialPageNonMaskingSettingsChanged(TutorialPage pg)
@@ -123,7 +123,7 @@ namespace Unity.NAME.Editor
         static void TranslateTutorial(Tutorial tutorial)
         {
             int numNewTranslations = TranslateObject(tutorial);
-            foreach (var pg in tutorial.pages)
+            foreach (var pg in tutorial.Pages)
                 numNewTranslations  += TranslateTutorialPage(pg);
 
             if (numNewTranslations > 0)
@@ -136,7 +136,7 @@ namespace Unity.NAME.Editor
         static int TranslateTutorialPage(TutorialPage pg)
         {
             int numNewTranslations = TranslateObject(pg);
-            foreach (var paragraph in pg.paragraphs)
+            foreach (var paragraph in pg.Paragraphs)
                 numNewTranslations += TranslateObject(paragraph);
 
             if (numNewTranslations > 0)

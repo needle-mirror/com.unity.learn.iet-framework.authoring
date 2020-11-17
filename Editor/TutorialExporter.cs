@@ -5,8 +5,9 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using Unity.Tutorials.Core.Editor;
 
-namespace Unity.InteractiveTutorials.Authoring.Editor
+namespace Unity.Tutorials.Authoring.Editor
 {
     // Initialize on load to surface potential reflection issues immediately
     [InitializeOnLoad]

@@ -2,7 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEditor;
 
-namespace Unity.InteractiveTutorials.Authoring.Editor
+namespace Unity.Tutorials.Authoring.Editor.Tests
 {
     public class CommonTutorialCallbacksTests
     {

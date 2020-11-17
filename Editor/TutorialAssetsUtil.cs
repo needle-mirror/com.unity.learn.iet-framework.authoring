@@ -1,20 +1,21 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Unity.Tutorials.Core.Editor;
 
 using PackageInfo = UnityEditor.PackageManager.PackageInfo;
-using static Unity.InteractiveTutorials.TutorialEditorUtils;
-using System.IO;
-using UnityEngine.UIElements;
+using static Unity.Tutorials.Core.Editor.TutorialEditorUtils;
 
-namespace Unity.InteractiveTutorials.Authoring.Editor
+namespace Unity.Tutorials.Authoring.Editor
 {
     using static Localization;
 
-    static class TutorialAssetsUtil
+    internal static class TutorialAssetsUtil
     {
         const string k_Menu = "Assets/Create/Tutorials/";
         const string k_PageMenu = k_Menu + "Tutorial Page/";
@@ -58,7 +59,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
 
             TutorialProjectSettings tutorialProjectSettings = CreateTutorialProjectSettings($"{path}/Tutorial Project Settings.asset");
             var style = tutorialProjectSettings.TutorialStyle; //this triggers the loading of the default style
-            tutorialProjectSettings.startupTutorial = container.Sections[0].Tutorial;
+            tutorialProjectSettings.StartupTutorial = container.Sections[0].Tutorial;
             tutorialProjectSettings.WelcomePage = welcomePage;
 
             EnsureAssetChangesAreSaved(container);
@@ -116,11 +117,11 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
 
                 if (lastTutorial != null)
                 {
-                    tutorial.lessonId = (int.Parse(lastTutorial.TutorialId) + 1).ToString();
+                    tutorial.LessonId = (int.Parse(lastTutorial.TutorialId) + 1).ToString();
                 }
                 else
                 {
-                    tutorial.lessonId = "0";
+                    tutorial.LessonId = "0";
                 }
 
                 TutorialContainer.Section section = new TutorialContainer.Section();
@@ -136,7 +137,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
             }
             else
             {
-                tutorial.lessonId = "0";
+                tutorial.LessonId = "0";
                 Debug.LogWarning(
                     Tr("The created tutorial does not belong to any TutorialContainer. The Lesson Id will be 0."),
                     tutorial
@@ -151,9 +152,9 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
             {
                 Debug.Log(Tr("The created tutorial doesn't have a Window Layout assigned. Please assign one to it if you wish to utilise it."), tutorial);
             }
-            tutorial.version = "1";
-            tutorial.exitBehavior = Tutorial.ExitBehavior.CloseWindow;
-            tutorial.skipTutorialBehavior = Tutorial.SkipTutorialBehavior.SameAsExitBehavior;
+            tutorial.Version = "1";
+            tutorial.ExitBehavior = Tutorial.ExitBehaviorType.CloseWindow;
+            tutorial.SkipTutorialBehavior = Tutorial.SkipTutorialBehaviorType.SameAsExitBehavior;
 
             EnsureAssetChangesAreSaved(tutorial);
             Debug.Log(
@@ -235,7 +236,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
             // and DoneButton with "Done".
             asset.NextButton = "Next";
             asset.DoneButton = "Done";
-            asset.paragraphs.SetItems(paragraphs);
+            asset.Paragraphs.SetItems(paragraphs);
             if (assetPath == null)
             {
                 CreateAssetAndStartRenaming("New Tutorial Page.asset", asset);
@@ -332,7 +333,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
         }
 
         [MenuItem(k_Menu + "Localization Assets", priority = 1011)]
-        static void CreateLocalizationAssets()
+        internal static void CreateLocalizationAssets()
         {
             try
             {
@@ -366,7 +367,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
 
         static void CreateAssetWithContentAndStartRenaming<T>(string assetName, string content) where T : ScriptableObject
         {
-            CreateAssetWithContentAndStartRenaming(assetName, content, EditorGUIUtility.FindTexture(typeof(T)));
+            CreateAssetWithContentAndStartRenaming(assetName, content, EditorGUIUtilityProxy.FindTexture(typeof(T)));
         }
 
         static void CreateAssetWithContentAndStartRenaming(string assetName, string content, Texture2D icon)
@@ -398,7 +399,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
                 var wnd = TutorialManager.GetTutorialWindow();
                 if (wnd)
                     wnd.Reset();
-                WindowLayout.SaveWindowLayout(path);
+                WindowLayoutProxy.SaveWindowLayout(path);
                 AssetDatabase.Refresh();
             }
         }
@@ -471,7 +472,7 @@ namespace Unity.InteractiveTutorials.Authoring.Editor
                         {
                             var unmaskedView = unmaskedViews.GetArrayElementAtIndex(viewIdx);
                             var viewTypeName = unmaskedView.FindPropertyRelative("m_ViewType.m_TypeName");
-                            if (viewTypeName.stringValue != typeof(Toolbar).AssemblyQualifiedName)
+                            if (viewTypeName.stringValue != GUIViewProxy.ToolbarType.AssemblyQualifiedName)
                                 continue;
 
                             toolbarIdx = viewIdx;
