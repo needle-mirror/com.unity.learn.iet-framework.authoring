@@ -53,8 +53,8 @@ namespace Unity.Tutorials.Authoring.Editor
             TutorialWelcomePage welcomePage = CreateTutorialWelcomePage($"{path}/Tutorial Welcome Page.asset");
 
             TutorialContainer container = CreateTutorialContainer($"{path}/Tutorials.asset");
-            container.ProjectName = "Title";
-            container.Title = "Subtitle";
+            container.Title = "Title";
+            container.Subtitle = "Subtitle";
             CreateTutorialFlow(null, container);
 
             TutorialProjectSettings tutorialProjectSettings = CreateTutorialProjectSettings($"{path}/Tutorial Project Settings.asset");
@@ -97,8 +97,7 @@ namespace Unity.Tutorials.Authoring.Editor
 
             //TutorialPage tutorialSwitchPage = CreateTutorialPageWithSwitch("15-LastPage", tutorial);
             Debug.LogWarning(
-                Tr("The created tutorial switch page doesn't have a Tutorial assiged. " +
-                    "Please assign one if you want to be able to continue from the tutorial to another."),
+                Tr($"The created tutorial switch page doesn't have a Tutorial assiged. Please assign the '{tutorial.name}' object to the field 'Next Tutorial', in the Inspector of the object '{tutorialSwitchPage.name}'."),
                 tutorialSwitchPage
             );
 
@@ -150,16 +149,14 @@ namespace Unity.Tutorials.Authoring.Editor
             }
             else
             {
-                Debug.Log(Tr("The created tutorial doesn't have a Window Layout assigned. Please assign one to it if you wish to utilise it."), tutorial);
+                Debug.LogWarning(Tr($"The tutorial '{tutorial.name}' does not have a Window Layout assigned. Please assign one to its 'Window Layout' field in the Inspector if you want to load a new Window Layout when this tutorial starts."), tutorial);
             }
             tutorial.Version = "1";
-            tutorial.ExitBehavior = Tutorial.ExitBehaviorType.CloseWindow;
             tutorial.SkipTutorialBehavior = Tutorial.SkipTutorialBehaviorType.SameAsExitBehavior;
 
             EnsureAssetChangesAreSaved(tutorial);
-            Debug.Log(
-                Tr("The created tutorial doesn't have a Scene assiged. " +
-                    "Please assign one to it if you want to load a specific scene when the tutorial starts"),
+            Debug.LogWarning(
+                Tr($"The tutorial '{tutorial.name}' does not have a Scene assigned. Please assign one to its 'Scene' field in the Inspector if you want to load a specific Scene when this tutorial starts"),
                 tutorial
             );
             return tutorial;
@@ -232,10 +229,6 @@ namespace Unity.Tutorials.Authoring.Editor
         static TutorialPage CreateTutorialPage(IEnumerable<TutorialParagraph> paragraphs, string assetPath)
         {
             var asset = ScriptableObject.CreateInstance<TutorialPage>();
-            // TODO regression in 1.2: TutorialPage not default-initializing NextButton with "Next"
-            // and DoneButton with "Done".
-            asset.NextButton = "Next";
-            asset.DoneButton = "Done";
             asset.Paragraphs.SetItems(paragraphs);
             if (assetPath == null)
             {
@@ -482,7 +475,7 @@ namespace Unity.Tutorials.Authoring.Editor
                                 var control = unmaskedControls.GetArrayElementAtIndex(ctlIdx);
                                 if (
                                     control.FindPropertyRelative("m_ControlName").stringValue == playButtonName &&
-                                    control.FindPropertyRelative("m_SelectorMode").intValue == (int)GUIControlSelector.Mode.NamedControl
+                                    control.FindPropertyRelative("m_SelectorMode").intValue == (int)GuiControlSelector.Mode.NamedControl
                                 )
                                 {
                                     configured = true;
@@ -509,7 +502,7 @@ namespace Unity.Tutorials.Authoring.Editor
                             toolbarControls.InsertArrayElementAtIndex(toolbarControls.arraySize);
                             var control = toolbarControls.GetArrayElementAtIndex(toolbarControls.arraySize - 1);
                             control.FindPropertyRelative("m_ControlName").stringValue = playButtonName;
-                            control.FindPropertyRelative("m_SelectorMode").intValue = (int)GUIControlSelector.Mode.NamedControl;
+                            control.FindPropertyRelative("m_SelectorMode").intValue = (int)GuiControlSelector.Mode.NamedControl;
                         }
                     }
                 }

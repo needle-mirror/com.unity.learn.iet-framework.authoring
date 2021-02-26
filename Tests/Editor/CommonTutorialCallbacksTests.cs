@@ -7,17 +7,21 @@ namespace Unity.Tutorials.Authoring.Editor.Tests
     public class CommonTutorialCallbacksTests
     {
         CommonTutorialCallbacks m_Callbacks;
+        GameObject m_GameObject;
+        const string m_GameObjectName = "Try to find me!";
 
         [SetUp]
         public void SetUp()
         {
             m_Callbacks = ScriptableObject.CreateInstance<CommonTutorialCallbacks>();
+            m_GameObject = new GameObject(m_GameObjectName);
         }
 
         [TearDown]
         public void TearDown()
         {
             Object.DestroyImmediate(m_Callbacks);
+            Object.DestroyImmediate(m_GameObject);
         }
 
         [Test]
@@ -52,6 +56,31 @@ namespace Unity.Tutorials.Authoring.Editor.Tests
         public void PingFolderOrFirstAsset_DoesNotThrowOnAnyInput(string path)
         {
             m_Callbacks.PingFolderOrFirstAsset(path);
+        }
+
+        [Test]
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("       ")]
+        [TestCase("DoesNotExist")]
+        public void SelectGameObject_DoesNotThrowOnAnyInput(string path)
+        {
+            m_Callbacks.SelectGameObject(path);
+        }
+
+        [Test]
+        public void SelectGameObject_Succeeds()
+        {
+            m_Callbacks.SelectGameObject(m_GameObjectName);
+            Assert.AreEqual(Selection.activeGameObject, m_GameObject);
+        }
+
+        [Test]
+        public void SelectGameObject_KeepsSelectionIntactIfGameObjectNotFound()
+        {
+            Selection.activeGameObject = m_GameObject;
+            m_Callbacks.SelectGameObject("does not exist");
+            Assert.AreEqual(Selection.activeGameObject, m_GameObject);
         }
     }
 }

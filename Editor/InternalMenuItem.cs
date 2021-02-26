@@ -19,7 +19,7 @@ namespace Unity.Tutorials.Authoring.Editor
         //[MenuItem(TutorialWindowMenuItem.MenuPath + TutorialWindowMenuItem.Item + " (No Layout Change)")]
         static void OpenTutorialWindow()
         {
-            TutorialWindow.CreateWindow();
+            TutorialWindow.GetOrCreateWindow();
         }
 
         [MenuItem(TutorialWindowMenuItem.MenuPath + "Localization/Extract Localizable Strings for the Project...")]

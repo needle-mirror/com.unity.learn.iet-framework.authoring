@@ -4,13 +4,27 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-pre.2] - 2021-02-26
+### Added
+- Added `SelectGameObject` function to `CommonTutorialCallbacks`.
+- Documentation: package documentation/manual added.
+
 ## [1.0.0-pre.1] - 2020-11-17
 ### Changed
 - Breaking change: assembly and namespace renamed to `Unity.Tutorials.Authoring.Editor`.
 - Updated Tutorial Framework dependency to 2.0.0-pre.1.
 
 ### Removed
-- _Tutorials_ > _Export Tutorial..._ and _Tutorials_ > _Export all with default settings_ menu items removed. Tutorial Exporter was experimental and not supported officially.
+- **Tutorials** > **Export Tutorial** and **Tutorials** > **Export all with default settings** menu items removed.
+Tutorial Exporter was experimental and not supported officially.
+
+## [0.6.6] - 2021-01-15
+### Changed
+- Updated Tutorial Framework dependency to 1.2.2.
+
+## [0.6.5] - 2020-11-17
+### Changed
+- Updated Tutorial Framework dependency to 1.2.1.
 
 ## [0.6.4] - 2020-11-11
 ### Added

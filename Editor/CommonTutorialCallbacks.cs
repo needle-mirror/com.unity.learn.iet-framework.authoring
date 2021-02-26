@@ -47,6 +47,17 @@ namespace Unity.Tutorials.Authoring.Editor
             PingFolderOrAsset(GetFirstAssetPathInFolder(folderPath, true));
         }
 
+        /// <summary>
+        /// Finds a GameObject by name and sets it as the active GameObject to Selection if the GameObject is found.
+        /// </summary>
+        /// <param name="name"></param>
+        public void SelectGameObject(string name)
+        {
+            var go = GameObject.Find(name);
+            if (go != null)
+                Selection.activeGameObject = go;
+        }
+
         static string GetFirstAssetPathInFolder(string folder, bool includeFolders)
         {
             try

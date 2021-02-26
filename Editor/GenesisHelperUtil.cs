@@ -26,14 +26,13 @@ namespace Unity.Tutorials.Authoring.Editor
                         GenesisHelper.LogTutorialStatusUpdate(id, " ");
                     }
                     Debug.Log("Lesson statuses cleared");
+                    // Refresh the window, if it's open.
+                    var wnd = TutorialManager.GetTutorialWindow();
+                    if (wnd)
+                    {
+                        wnd.MarkAllTutorialsUncompleted();
+                    }
                 });
-
-                // Refresh the window, if it's open.
-                var wnd = TutorialManager.GetTutorialWindow();
-                if (wnd)
-                {
-                    wnd.MarkAllTutorialsUncompleted();
-                }
             }
         }
     }
