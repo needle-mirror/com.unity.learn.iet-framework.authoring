@@ -4,6 +4,12 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-pre.4] - 2021-03-10
+### Fixed
+- Documentation: Fixed all installation instructions to use "-pre.X" postfix.
+### Changed
+- Updated Tutorial Framework dependency to 2.0.0-pre.4.
+
 ## [1.0.0-pre.3] - 2021-03-03
 ### Changed
 - Updated Tutorial Framework dependency to 2.0.0-pre.3.

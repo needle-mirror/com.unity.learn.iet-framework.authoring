@@ -1,5 +1,7 @@
 ﻿# About Tutorial Authoring Tools
 
+![](images/hero.png)
+
 Use the Tutorial Authoring tools to author In-Editor Tutorials. Currently, this package provides only UI functionality and no public APIs.
 
 The Tutorial Authoring Tools should be used while developing tutorials, but the final published tutorial projects should not include the Tutorial Authoring tools.

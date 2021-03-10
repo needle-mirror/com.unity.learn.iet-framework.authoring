@@ -11,8 +11,8 @@ Example:
 
     {
         "dependencies": {
-            "com.unity.learn.iet-framework": "2.0.0-pre",
-            "com.unity.learn.iet-framework.authoring": "1.0.0-pre"
+            "com.unity.learn.iet-framework": "2.0.0-pre.4",
+            "com.unity.learn.iet-framework.authoring": "1.0.0-pre.4"
         }
     }
 Make sure the Framework and the Authoring Tools have compatible versions, most likely the latest version of each package.
@@ -27,8 +27,4 @@ This package allows you to create new Assets related to Tutorials:
 - Tutorial Welcome Page
 - Tutorial Project Settings
 
-It will also enable the authoring toolbar at the top of the Tutorial Window, which allows the author to:
-
-- Load a specific tutorial
-- Re-run start up code
-- Disable masking
+It will also enable the authoring toolbar at the top of the **Tutorials** window, allowing to author and test the tutorials more easily.

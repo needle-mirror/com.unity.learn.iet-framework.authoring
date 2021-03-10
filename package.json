@@ -1,21 +1,21 @@
 {
   "name": "com.unity.learn.iet-framework.authoring",
   "displayName": "Tutorial Authoring Tools",
-  "version": "1.0.0-pre.3",
+  "version": "1.0.0-pre.4",
   "unity": "2019.4",
   "description": "Authoring tools for In-Editor Tutorials. Required for authoring In-Editor Tutorial assets.",
   "keywords": [
     "tutorials"
   ],
   "dependencies": {
-    "com.unity.learn.iet-framework": "2.0.0-pre.3"
+    "com.unity.learn.iet-framework": "2.0.0-pre.4"
   },
   "upmCi": {
-    "footprint": "ef44ce1cc22a14af775739b820d974461cdbb069"
+    "footprint": "283c34fe7d09e9546f1d2b5a2c8cad7dbe3cdcee"
   },
   "repository": {
     "url": "https://github.cds.internal.unity3d.com/unity/iet-package.git",
     "type": "git",
-    "revision": "d8f746a99df07078804968bc14913b492fbbb233"
+    "revision": "0f44f38f81d3706129058464ae2e34004a13d7ca"
   }
 }

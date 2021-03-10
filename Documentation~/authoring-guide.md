@@ -1,6 +1,6 @@
 # Using Tutorial Authoring Tools
 
-Refers to version 2.0.0-pre of Tutorial Framework and 1.0.0-pre of Tutorial Authoring Tools.
+Refers to version 2.0.0-pre.4 of Tutorial Framework and 1.0.0-pre.4 of Tutorial Authoring Tools.
 
 ## Purpose of the document
 
@@ -12,11 +12,11 @@ If you're looking for documentation with more detail, please refer to [this](htt
 
 ## How to add in-Editor tutorials packages
 
-To add the IET packages to your project, go to **Window** > **Package Manager** and look for the **Add package from git URL** option that can be found from the plus icon menu in the top-left corner of the window.
+To add the IET packages to your project, go to **Window** > **Package Manager** and look for the **Add package from git URL** option that can be found from the **Add** (**+**) menu in the top-left corner of the window.
 
 ![](images/index001.png)
 
-Input "com.unity.learn.iet-framework@2.0.0-pre", click **Add** or press Enter, and repeat the same procedure using "com.unity.learn.iet-framework.authoring@1.0.0-pre" as the input.
+Input "com.unity.learn.iet-framework@2.0.0-pre.4", click **Add** or press Enter, and repeat the same procedure using "com.unity.learn.iet-framework.authoring@1.0.0-pre.4" as the input.
 
 **NOTE:** Newer versions of both the framework and the authoring tools might be available, so you might want to check if they exist. You can do this by installing the versions listed here and then opening the package manager, clicking on the two packages, and checking for updated versions. 
 
