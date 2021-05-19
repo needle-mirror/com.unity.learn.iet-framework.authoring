@@ -80,19 +80,17 @@ namespace Unity.NAME.Editor
         static void SubscribeToModifications()
         {
             TutorialWelcomePage.TutorialWelcomePageModified += TranslateTutorialWelcomePage;
-            TutorialContainer.TutorialContainerModified += TranslateTutorialContainer;
-            Tutorial.TutorialModified += TranslateTutorial;
-            Tutorial.TutorialPagesModified += TranslateTutorial;
-            TutorialPage.TutorialPageNonMaskingSettingsChanged += OnTutorialPageNonMaskingSettingsChanged;
+            TutorialContainer.TutorialContainerModified.AddListener(TranslateTutorialContainer);
+            Tutorial.TutorialModified.AddListener(TranslateTutorial);
+            TutorialPage.TutorialPageNonMaskingSettingsChanged.AddListener(OnTutorialPageNonMaskingSettingsChanged);
         }
 
         static void UnsubscribeFromModifications()
         {
             TutorialWelcomePage.TutorialWelcomePageModified -= TranslateTutorialWelcomePage;
-            TutorialContainer.TutorialContainerModified -= TranslateTutorialContainer;
-            Tutorial.TutorialModified -= TranslateTutorial;
-            Tutorial.TutorialPagesModified -= TranslateTutorial;
-            TutorialPage.TutorialPageNonMaskingSettingsChanged -= OnTutorialPageNonMaskingSettingsChanged;
+            TutorialContainer.TutorialContainerModified.RemoveListener(TranslateTutorialContainer);
+            Tutorial.TutorialModified.RemoveListener(TranslateTutorial);
+            TutorialPage.TutorialPageNonMaskingSettingsChanged.RemoveListener(OnTutorialPageNonMaskingSettingsChanged);
         }
 
         static void OnTutorialPageNonMaskingSettingsChanged(TutorialPage pg)
@@ -107,7 +105,7 @@ namespace Unity.NAME.Editor
                 numNewTranslations += TranslateObject(button);
 
             if (numNewTranslations > 0)
-                welcomePg.RaiseModifiedEvent();
+                welcomePg.RaiseModified();
         }
 
         static void TranslateTutorialContainer(TutorialContainer container)
@@ -117,19 +115,18 @@ namespace Unity.NAME.Editor
                 numNewTranslations += TranslateObject(section);
 
             if (numNewTranslations > 0)
-                container.RaiseModifiedEvent();
+                container.RaiseModified();
         }
 
         static void TranslateTutorial(Tutorial tutorial)
         {
             int numNewTranslations = TranslateObject(tutorial);
             foreach (var pg in tutorial.Pages)
-                numNewTranslations  += TranslateTutorialPage(pg);
+                numNewTranslations += TranslateTutorialPage(pg);
 
             if (numNewTranslations > 0)
             {
-                tutorial.RaiseTutorialModifiedEvent();
-                tutorial.RaiseTutorialPagesModified();
+                tutorial.RaiseModified();
             }
         }
 
@@ -140,7 +137,7 @@ namespace Unity.NAME.Editor
                 numNewTranslations += TranslateObject(paragraph);
 
             if (numNewTranslations > 0)
-                pg.RaiseTutorialPageNonMaskingSettingsChangedEvent();
+                pg.RaiseNonMaskingSettingsChanged();
 
             return numNewTranslations;
         }

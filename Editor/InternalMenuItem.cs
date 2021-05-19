@@ -12,7 +12,7 @@ namespace Unity.Tutorials.Authoring.Editor
 {
     static class InternalMenuItem
     {
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Restart Editor")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Debug/Restart Editor")]
         static void RestartEditor() => UserStartupCode.RestartEditor();
 
         // TODO not working as intented, doesn't show the Readme. Fix.
@@ -22,7 +22,7 @@ namespace Unity.Tutorials.Authoring.Editor
             TutorialWindow.GetOrCreateWindow();
         }
 
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Localization/Extract Localizable Strings for the Project...")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Localization/Extract Localizable Strings for the Project...")]
         static void ExtractLocalizableStrings()
         {
             string poFolderPath = EditorUtility.OpenFolderPanel(
@@ -87,29 +87,19 @@ namespace Unity.Tutorials.Authoring.Editor
                 WritePOFile(Application.productName, Application.version, code, uniqueEntries, $"{poFolderPath}/{code}.po");
         }
 
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Open Welcome Dialog (Internal)")]
-        static void OpenWelcomeDialog()
-        {
-            var welcomePage = TutorialProjectSettings.Instance.WelcomePage;
-            if (welcomePage != null)
-                TutorialModalWindow.TryToShow(welcomePage, () => {});
-            else
-                Debug.LogError("No TutorialProjectSettings.WelcomePage set.");
-        }
-
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Run First Launch Experience (Internal)")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Debug/Run Startup Code")]
         static void ExecuteFirstLaunchExperience()
         {
-            UserStartupCode.RunStartupCode();
+            UserStartupCode.RunStartupCode(TutorialProjectSettings.Instance);
         }
 
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Clear InitCodeMarker (Internal)", isValidateFunction: true)]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Debug/Clear InitCodeMarker", isValidateFunction: true)]
         static bool Validate_ClearInitCodeMarker()
         {
             return File.Exists(UserStartupCode.initFileMarkerPath);
         }
 
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Clear InitCodeMarker (Internal)", isValidateFunction: false)]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Debug/Clear InitCodeMarker")]
         static void ClearInitCodeMarker()
         {
             File.Delete(UserStartupCode.initFileMarkerPath);
@@ -126,23 +116,23 @@ namespace Unity.Tutorials.Authoring.Editor
         // 2560 x 1440  -- ‭1.777777777777778‬
         // 3840 x 2160  -- ‭1.777777777777778‬
         // Looking at the ratios, we could maybe drop the many of these and keep only single one of each ration.
-        [MenuItem(TutorialWindowMenuItem.MenuPath +  "Layout/Window Size/1366 x 768")]
+        [MenuItem(MenuItems.AuthoringMenuPath +  "Layout/Window Size/1366 x 768")]
         static void SetWindowSize_1366x768() => SetMainWindowSize(1366, 768);
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Layout/Window Size/1440 x 900")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Layout/Window Size/1440 x 900")]
         static void SetWindowSize_1440x900() => SetMainWindowSize(1440, 900);
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Layout/Window Size/1600 x 900")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Layout/Window Size/1600 x 900")]
         static void SetWindowSize_1600x900() => SetMainWindowSize(1600, 900);
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Layout/Window Size/1680 x 1050")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Layout/Window Size/1680 x 1050")]
         static void SetWindowSize_1680x1050() => SetMainWindowSize(1680, 1050);
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Layout/Window Size/1280 x 800")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Layout/Window Size/1280 x 800")]
         static void SetWindowSize_1280x800() => SetMainWindowSize(1280, 800);
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Layout/Window Size/1920 x 1080")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Layout/Window Size/1920 x 1080")]
         static void SetWindowSize_1920x1080() => SetMainWindowSize(1920, 1080);
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Layout/Window Size/2560 x 1440")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Layout/Window Size/2560 x 1440")]
         static void SetWindowSize_2560x1440() => SetMainWindowSize(2560, 1440);
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Layout/Window Size/3840 x 2160")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Layout/Window Size/3840 x 2160")]
         static void SetMainWindowSize_3840x2160() => SetMainWindowSize(3840, 2160);
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Layout/Window Size/Arbitrary...")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Layout/Window Size/Arbitrary...")]
         static void SetMainWindowSize_Arbitrary() => SetWindowSizeDialog.ShowAsUtility();
 
         internal static void SetMainWindowSize(int w, int h)

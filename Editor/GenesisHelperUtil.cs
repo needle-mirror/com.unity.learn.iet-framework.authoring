@@ -5,18 +5,24 @@ using Unity.Tutorials.Core.Editor;
 
 namespace Unity.Tutorials.Authoring.Editor
 {
+    using static Localization;
+
     class GenesisHelperUtils
     {
-        [MenuItem("Tutorials/Genesis/Print all statuses")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Debug/Progress Tracking/Print All Statuses")]
         static void PrintAllStatuses()
         {
             GenesisHelper.PrintAllTutorials();
         }
 
-        [MenuItem("Tutorials/Genesis/Clear all statuses")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Debug/Progress Tracking/Clear All Statuses")]
         static void ClearAllStatuses()
         {
-            if (EditorUtility.DisplayDialog("", "Do you want to clear progress of every tutorial?", "Clear", "Cancel"))
+            if (EditorUtility.DisplayDialog(
+                string.Empty,
+                Tr("Do you want to clear progress of every tutorial?"),
+                Tr("Clear"),
+                Tr("Cancel")))
             {
                 GenesisHelper.GetAllTutorials((r) =>
                 {

@@ -9,7 +9,7 @@ namespace Unity.Tutorials.Authoring.Editor
 {
     static class TutorialStructureExtractor
     {
-        [MenuItem("Tutorials/Localization/Extract Tutorial Structure of the Project...")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Localization/Extract Tutorial Structure of the Project...")]
         static void Extract()
         {
             const string fileExt = "txt";

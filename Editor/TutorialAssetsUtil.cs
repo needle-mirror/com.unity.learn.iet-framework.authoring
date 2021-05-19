@@ -59,7 +59,6 @@ namespace Unity.Tutorials.Authoring.Editor
 
             TutorialProjectSettings tutorialProjectSettings = CreateTutorialProjectSettings($"{path}/Tutorial Project Settings.asset");
             var style = tutorialProjectSettings.TutorialStyle; //this triggers the loading of the default style
-            tutorialProjectSettings.StartupTutorial = container.Sections[0].Tutorial;
             tutorialProjectSettings.WelcomePage = welcomePage;
 
             EnsureAssetChangesAreSaved(container);
@@ -114,14 +113,8 @@ namespace Unity.Tutorials.Authoring.Editor
                     lastTutorial = container.Sections.Where(s => !string.IsNullOrEmpty(s.TutorialId)).Last();
                 }
 
-                if (lastTutorial != null)
-                {
-                    tutorial.LessonId = (int.Parse(lastTutorial.TutorialId) + 1).ToString();
-                }
-                else
-                {
-                    tutorial.LessonId = "0";
-                }
+                tutorial.ProgressTrackingEnabled = true;
+                tutorial.LessonId = Guid.NewGuid().ToString();
 
                 TutorialContainer.Section section = new TutorialContainer.Section();
                 section.OrderInView = 0;
@@ -136,9 +129,8 @@ namespace Unity.Tutorials.Authoring.Editor
             }
             else
             {
-                tutorial.LessonId = "0";
                 Debug.LogWarning(
-                    Tr("The created tutorial does not belong to any TutorialContainer. The Lesson Id will be 0."),
+                    Tr("The created tutorial does not belong to any TutorialContainer. The Lesson Id will be empty."),
                     tutorial
                 );
             }
@@ -152,7 +144,6 @@ namespace Unity.Tutorials.Authoring.Editor
                 Debug.LogWarning(Tr($"The tutorial '{tutorial.name}' does not have a Window Layout assigned. Please assign one to its 'Window Layout' field in the Inspector if you want to load a new Window Layout when this tutorial starts."), tutorial);
             }
             tutorial.Version = "1";
-            tutorial.SkipTutorialBehavior = Tutorial.SkipTutorialBehaviorType.SameAsExitBehavior;
 
             EnsureAssetChangesAreSaved(tutorial);
             Debug.LogWarning(
@@ -305,8 +296,7 @@ namespace Unity.Tutorials.Authoring.Editor
             {
                 asset = CreateAsset<TutorialProjectSettings>(assetPath);
             }
-
-            TutorialProjectSettings.ReloadInstance();
+            TutorialProjectSettings.Instance = asset;
             return asset;
         }
 
@@ -326,13 +316,14 @@ namespace Unity.Tutorials.Authoring.Editor
         }
 
         [MenuItem(k_Menu + "Localization Assets", priority = 1011)]
-        internal static void CreateLocalizationAssets()
+        internal static void CreateLocalizationAssets() => CreateLocalizationAssets($"{GetActiveFolderPath()}/Localization");
+        internal static void CreateLocalizationAssets(string path)
         {
             try
             {
                 TutorialManager.DirectoryCopy(
                     $"{PackageInfo.FindForAssembly(Assembly.GetExecutingAssembly()).assetPath}/.LocalizationAssets",
-                    $"{GetActiveFolderPath()}/Localization"
+                    path
                 );
                 AssetDatabase.Refresh();
             }
@@ -382,7 +373,7 @@ namespace Unity.Tutorials.Authoring.Editor
             AssetDatabase.CreateAsset(asset, AssetDatabase.GenerateUniqueAssetPath(assetPath));
         }
 
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Layout/Save Current Layout to Asset...")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Layout/Save Current Layout to Asset...")]
         static void SaveCurrentLayoutToAsset()
         {
             string path = EditorUtility.SaveFilePanelInProject("Save Layout", "layout.wlt", "wlt", "Choose the location to save the layout");
@@ -391,13 +382,13 @@ namespace Unity.Tutorials.Authoring.Editor
                 // Make sure we don't save the contents of the window
                 var wnd = TutorialManager.GetTutorialWindow();
                 if (wnd)
-                    wnd.Reset();
+                    wnd.ClearContent();
                 WindowLayoutProxy.SaveWindowLayout(path);
                 AssetDatabase.Refresh();
             }
         }
 
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Layout/Load Layout...")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Layout/Load Layout...")]
         static void LoadLayout()
         {
             string path = EditorUtility.OpenFilePanelWithFilters("Open Layout", "", new[] { "Layout files", "wlt,dwlt" });
@@ -406,8 +397,8 @@ namespace Unity.Tutorials.Authoring.Editor
                 TutorialManager.LoadWindowLayout(path);
             }
         }
-
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Masking/Remove TutorialWindow")]
+            
+        //[MenuItem(TutorialWindowMenuItem.MenuPath + "Masking/Remove TutorialWindow")]
         static void RemoveTutorialWindowFromMaskingSettings()
         {
             foreach (TutorialPage page in Selection.objects)
@@ -437,7 +428,7 @@ namespace Unity.Tutorials.Authoring.Editor
             }
         }
 
-        [MenuItem(TutorialWindowMenuItem.MenuPath + "Masking/Configure Play Button")]
+        //[MenuItem(TutorialWindowMenuItem.MenuPath + "Masking/Configure Play Button")]
         static void AddPlayButtonControlMaskingToParagraphsWithPlayModeCriteria()
         {
             const string playButtonName = "ToolbarPlayModePlayButton";
