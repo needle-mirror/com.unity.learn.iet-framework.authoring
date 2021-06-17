@@ -46,7 +46,7 @@ InitCodeMarker
 
 To create the ready-to-use tutorial scaffolding: 
 
-1. Go to the **Project browser** window 
+1. Go to the Project window
 1. Create a folder named `Tutorials` to help you stay organized
 1. Enter this folder, then right-click and go to **Create** > **Tutorials** > **Ready-to-Use Tutorial Project**
 
@@ -86,7 +86,20 @@ If everything is set up correctly, this window will appear:
 
 That is the visual representation of your Tutorial object, which is the table of contents. Currently, it displays only this first tutorial.
 
-Try completing all steps of this tutorial. If there are no errors, you're good to go! 
+Try completing all the steps of this tutorial. If there are no errors, you're good to go! 
+
+### Authoring toolbar
+
+At the top of the tutorial window, you'll find the authoring toolbar. The function of each button is as follows:
+
+![](images/index046.png)
+
+1. **Select Container** - select and inspect the current tutorial container asset
+1. **Select Tutorial** - select and inspect the currently running tutorial asset
+1. **Select Page** - select and inspect the current tutorial page asset
+1. **Skip to End** - go to the last page of the tutorial
+1. **Preview Masking** - toggle masking on and off, to preview or hide it
+1. **Run Startup Code** - run project initialization (initial scene and camera settings), reload the **Tutorials** window, and show the welcome dialog (if configured)
 
 ## Creating new tutorial assets
 
@@ -101,9 +114,9 @@ Remember to rename the tutorial file to distinguish it from the others.
 
 ![](images/index010.png)
 
-Assign a new, unique **Lesson Id** to the tutorial so we can track it with our analytics. It should be unique among all existing tutorials, so, for example, generate a random GUID to ensure the uniqueness.
+To enable analytics for your tutorial, select Progress Tracking Enabled. This will generate a unique Lesson ID (GUID) for your tutorial. You can check this GUID by selecting debug mode in the inspector window.
 
-Edit any other fields that you want to edit. 
+Edit any other fields you want to. 
 
 ![](images/index011.png)
 
@@ -112,8 +125,8 @@ To add the tutorial to the table of content (Unity 2020):
 1. Go the Tutorial object and select it 
 1. Expand its **Sections** array 
 1. Add a new section 
-1. Drag & drop the new tutorial asset into the **Tutorial** field of the new section 
-1. Edit the other fields (**Heading**, **Description**, **Image**)
+1. Drag and drop the new tutorial asset into the **Tutorial** field of the new section 
+1. Edit the other fields (**Heading**, **Text**, **Image**)
 1. Use Ctrl/Cmd + S so that Unity saves the changes to your scriptable objects 
 1. Test it! 
 
@@ -124,8 +137,8 @@ To add the tutorial to the table of contents (Unity 2019):
 1. Go the Tutorials object and select it 
 1. Expand its **Sections** array
 1. Increase the **Size** number to add a new section 
-1. Drag & drop the new tutorial asset into the **Tutorial** field of the new section 
-1. Edit the other fields (**Heading**, **Description**, **Image**)
+1. Drag and drop the new tutorial asset into the **Tutorial** field of the new section 
+1. Edit the other fields (**Heading**, **Text**, **Image**)
 1. Use Ctrl/Cmd + S so that Unity saves the changes to your scriptable objects 
 1. Test it! 
 
@@ -162,14 +175,43 @@ You can either duplicate an existing page and rename it, or use one of the menu 
 
 **How-to**
 
-1. Go to the Tutorials object and select it 
+1. Go to the `Tutorials` asset and select it 
 1. Expand its **Sections** array 
-1. Add a new section 
-1. Edit the fields (**Heading**, **Description**, **Image**). Be sure to put something in the URL field, and to clean up the **Tutorial** field (simply select it and press Delete)
+1. Add a new section by increasing **Size**
+1. Edit the fields (**Heading**, **Text**, **Image**). Be sure to put something in the URL field, and to clean up the **Tutorial** field (simply select it and press Delete)
 1. Press Ctrl/Cmd + S so Unity saves the changes to your scriptable objects 
 1. Test it! 
 
 ![](images/index018.png)
+
+
+### Creating a tutorial category
+
+**Use cases**
+
+1. You want to organize your tutorials into categories, for example, "Beginner tutorials" and "Advanced tutorials".
+
+**How-to**
+
+<!-- TODO picture 1: BeginnerTutorials selected, Title set, Sections set to 1, "Tutorial 1" set as the tutorial -->
+<!-- TODO picture 2: Tutorials window showing the container which has 2 categories and everything else set up -->
+
+This example assumes that you have an existing tutorial project. See [How to set up the tutorial scaffolding](#how-to-set-up-the-tutorial-scaffolding).
+
+1. Rename your original tutorial container, `Tutorials` asset, to `TutorialProject`.
+1. Create a new folder, `Assets/Tutorials/Beginner`, and enter it.
+1. Go to **Create** > **Tutorials** and select **Tutorial Container**. Rename the created `Tutorials` asset to `BeginnerTutorials`.
+1. Select the asset and input "Beginner tutorials" as the **Title** using the Inspector.
+1. To create a new section, increase the value of **Sections** from 0 to 1 
+1. Select (drag and drop or use an object picker) an existing tutorial, for example, `Tutorial1`, as the **Tutorial** of the new section.
+1. Provide the section's **Heading** and **Text** with suitable descriptions.
+1. Select `TutorialProject` as the container's **Parent Container**.
+1. Set the `BeginnerTutorials` container's **Order In View** to 0. This will make it the first item in the parent container.
+1. Repeat the aforementioned steps for a new container, `AdvancedTutorials`, using `Assets/Tutorials/Advanced` folder.
+1. Set the `AdvancedTutorials` container's **Order In View** to 1. This will make it the second item in the parent container.
+1. Select your original tutorial container, `TutorialProject`, to view the categories you just added to it.
+1. Set **Order In View** values of **Sections** to begin from 2. This will make it the third item in the parent container.
+1. Your tutorial project (`TutorialProject` asset) should now contain "Beginner tutorials" and "Advanced tutorials" categories. Any other content is shown below the category cards.
 
 ## Masking and highlighting
 
@@ -185,7 +227,7 @@ Masking won't be re-applied when navigating to a previous tutorial step (clickin
 
 1. To highlight a specific part / window of the Editor (e.g., the Inspector) or block interactions with it 
 1. To highlight a specific control (e.g., the Play button in the top bar) or block interactions with it 
-1. To highlight a specific property in the inspector, a specific label, or a specific object in the Scene/Project view
+1. To highlight a specific property in the Inspector, a specific label, or a specific object in the Scene/Project view
 
 **How-to**
 
@@ -195,7 +237,7 @@ Masking won't be re-applied when navigating to a previous tutorial step (clickin
 
 ![](images/index019.png)
 
-2. Enable the **Enable masking** checkbox and make sure **Preview Masking** is enabled
+2. Enable the **Enable Masking** checkbox and make sure **Preview Masking** is enabled
 
 ![](images/index020.png)
 
@@ -211,7 +253,7 @@ If no unmasked views are selected, the tutorial window will be masked.
 - When switching between scenes while referencing objects, the reference will temporarily be marked as missing, but it will reappear as soon as you get back to the scene where the object lives. 
 - You can reference child objects, but they won't be highlighted. 
 
-**To highlight an object in the Project browser:**
+**To highlight an object in the Project window:**
 
 ![](images/index023.png)
 
@@ -229,7 +271,7 @@ For other masking setups and examples, check out [this](https://docs.unity3d.com
 
 **Use cases**
 
-1. To set up the beginning of a specific tutorial step so that the user can more easily perform a task and proceed, for example, open a window for the user, ping an object in the Project browser, instantiate an object, toggle a tool, and so on
+1. To set up the beginning of a specific tutorial step so that the user can more easily perform a task and proceed, for example, open a window for the user, ping an object in the Project window, instantiate an object, toggle a tool, and so on
 1. To enable/disable something, such as a custom tool, that would allow/prevent the user to/from completing the tutorial, the LEGO® Tools in the LEGO® Microgame being an example
 1. You want to ensure that the user has something to do in the tutorial, for example set the value of a property of a GameObject's component so the user has to change it to proceed
 
@@ -243,7 +285,7 @@ To execute arbitrary code when a tutorial page is run, you need to create a Tuto
 2. Click on the **Create Callback Handler** button in the Inspector 
 
 ![](images/index026.png)
-"
+
 3. Save it in your project (the `Tutorials` parent folder is recommended, if you want to keep everything in one place) 
 
 At this point, 2 files will be generated: 
@@ -253,7 +295,7 @@ At this point, 2 files will be generated:
 
 ![](images/index027.png)
 
-**NOTE:** you only need to generate the handler the 1st time. From the 2nd time, you just add methods. 
+**NOTE:** you only need to generate the handler the first time. From the second time, you just add methods. 
 
 **Add custom methods to TutorialCallbacksHandler:**
 
@@ -269,7 +311,7 @@ After you finish adding the methods:
 
 ![](images/index028.png)
 
-6. Drag & drop the **TutorialCallbacks** scriptable object onto the Object field 
+6. Drag and drop the **TutorialCallbacks** scriptable object onto the object field 
 
 ![](images/index029.png)
 
@@ -280,12 +322,11 @@ After you finish adding the methods:
 
 9. Save (Ctrl/Cmd + S) and test that the code is run when you reach that tutorial page in a tutorial 
 
-## Using the standard TutorialCallbacksHandler
+## Using the CommonTutorialCallbacksHandler
 
-IET comes with a default `TutorialCallbacksHandler` that can be found in the package's folder and is currently named `CommonTutorialCallbacksHandler`. This handler already exposes some common methods that you'll probably find useful when Authoring a tutorial. You can use this in combination with the other handlers that you define in the project. 
+IET comes with a `CommonTutorialCallbacksHandler` asset which contains some commonly needed utility functions for authoring tutorial logic. You can use this in combination with the other handlers that you define in the project. 
 
 ![](images/index031.png)
-This ensures that the user follows the instructions of the tutorial by meeting completion criteria.
 
 **Use case**
 
@@ -308,23 +349,32 @@ You want the user to perform certain actions during a tutorial in order to proce
 
 **Use case**
 
-You want to check if the user has performed an action (i.e., enabled an option in your custom tool) or reached a particular state (i.e., published a game through the WebGL Publisher), but there's no criteria that checks for the same thing you're looking for.
+You want to check if the user has performed an action (such as enabling an option in your custom tool) or reached a particular state (such as published a game through the WebGL Publisher), but there's no criteria that checks for the same thing you're looking for.
 
 **How-to**
 
-1. In your callbacks handler, define a `public` method that returns a `bool` This will be your "criterion method", and it will be called every frame while the tutorial page is running.
-<!-- TODO code could be replaced by text instead of screenshot for easy maintainability -->
-![](images/index034.png)
+
+1. In your callbacks handler, define a `public` method that returns a `bool` This will be your "criterion method", and it will be called every frame while the tutorial page is running. For example:
+```
+    public bool DoesFooExist()
+    {
+        return GameObject.Find("Foo") != null;
+    }
+```
 
 2. Follow the steps listed above, but select **ArbitraryCriterion** as the **Type**
-2. Drag & drop the callbacks handler that contains the criterion method into the **Callback** field  
+2. Drag and drop the callbacks handler that contains the criterion method onto the **Callback** field  
 2. Select the method you created
 
 ![](images/index035.png)
 
-5. Save & test 
+5. Save and test 
+5. You can also set up an **Auto Complete Callback** if you want to be able to skip the page while authoring
 
-You can also set up an **Auto Complete Callback** if you want to skip this tutorial while authoring. 
+**Implementing your own criterion class**
+
+`ArbitraryCriterion` is fast and easy way to utilize simple criteria. For more complex criteria, one can consider implementing their own criteria by creating a class that inherits from the
+[Criterion](https://docs.unity3d.com/Packages/com.unity.learn.iet-framework@2.0/api/Unity.Tutorials.Core.Editor.Criterion.html) class. Your criterion will appear automatically as one of the **Type** options.
 
 ## The Welcome Dialog 
 
@@ -334,24 +384,23 @@ You want to provide a welcome dialog to users when they open the project for the
 
 **How-to**
 
-By default, every project has a welcome dialog. It is displayed only the first time the project is open. 
+By default, every project has a welcome dialog. It is displayed only the first time the project is open but the user can revisit it by selecting **Tutorials** > **Welcome Dialog**.
 
 You can choose which welcome dialog to display by setting this field in the **Tutorial Project Settings** object.
 
 ![](images/index036.png)
 
-![](images/index037.png)
-
-![](images/index038.png)
 
 **Edit the welcome dialog:**
 
 1. Select the dialog object 
 1. Edit the fields through the Inspector 
 1. Close the dialog 
-1. Reopen by going to **Tutorials** > **Open Welcome Dialog (internal)** to view the changes
+1. Reopen by going to **Tutorials** > **Welcome Dialog** to view the changes
 
 You can also add more buttons to the welcome dialog by editing the **Buttons** property and adding new callbacks defined in a custom scriptable object (or in your TutorialCallbacksHandler) 
+
+![](images/index038.png)
 
 ## Custom Window Layouts
 
@@ -364,7 +413,7 @@ a. NOTE: Loading layouts is an intrusive operation; for an alternative and less 
 
 **How-to**
 
-1. Prepare the layout on your local Unity instance, docking windows, defining zoom and active folders in the Project browser, etc.
+1. Prepare the layout on your local Unity instance, docking windows, defining zoom and active folders in the Project window, etc.
 1. When you're ready, select **Tutorials** > **Layout** > **Save Current Layout to Asset** and save the layout
 
 ![](images/index039.png)
@@ -385,7 +434,7 @@ a. NOTE: Loading layouts is an intrusive operation; for an alternative and less 
 
 ![](images/index041.png)
 
-6. Save your changes & test them.
+6. Save your changes and test them.
 
 ## Custom IET style sheets 
 
@@ -407,7 +456,7 @@ You want to override the default dark / light themes of IET
 
 ![](images/index044.png)
 
-4. Save & test (run a tutorial or reopen the tutorial window) 
+4. Save and test (run a tutorial or reopen the tutorial window) 
 
 ## Rich text support
 

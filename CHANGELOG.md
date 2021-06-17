@@ -4,6 +4,13 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-pre.6] - 2021-06-17
+### Changed
+- Updated Tutorial Framework dependency to 2.0.0-pre.6.
+
+### Removed
+- **Breaking change**: Removed `CommonTutorialCallbacks` assets. These are moved to Tutorial Framework.
+
 ## [1.0.0-pre.5] - 2021-05-19
 ### Changed
 - UI: Cleaned up and restructured the **Tutorials** menu, authoring-related items can be now found under the **Tutorials** > **Authoring** submenu.
@@ -34,7 +41,7 @@ and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated Tutorial Framework dependency to 2.0.0-pre.1.
 
 ### Removed
-- **Tutorials** > **Export Tutorial** and **Tutorials** > **Export all with default settings** menu items removed.
+- Removed **Tutorials** > **Export Tutorial** and **Tutorials** > **Export all with default settings** menu items.
 Tutorial Exporter was experimental and not supported officially.
 
 ## [0.6.6] - 2021-01-15
