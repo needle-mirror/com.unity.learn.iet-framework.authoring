@@ -35,7 +35,7 @@ namespace Unity.NAME.Editor
                     asset.StartsWith(k_MonitoredPath))
                 )
             {
-                Translator.Translate();
+                Translator.TranslateAll();
             }
         }
     }
@@ -59,14 +59,14 @@ namespace Unity.NAME.Editor
         static void DeferredTranslate()
         {
             EditorApplication.update -= DeferredTranslate;
-            Translate();
+            TranslateAll();
         }
 
         // NOTE msgid "Translate Current Project" must be in the project's PO files, not in IET packages' PO files.
         // "Tutorials" and "Localization" translations are provided by the IET packages.
         // NOTE MenuItem hidden for now as we have the automatic translation updates.
         //[MenuItem("Tutorials/Localization/Translate Current Project")]
-        internal static void Translate()
+        internal static void TranslateAll()
         {
             UnsubscribeFromModifications();
 
@@ -79,7 +79,7 @@ namespace Unity.NAME.Editor
 
         static void SubscribeToModifications()
         {
-            TutorialWelcomePage.TutorialWelcomePageModified += TranslateTutorialWelcomePage;
+            TutorialWelcomePage.TutorialWelcomePageModified.AddListener(TranslateTutorialWelcomePage);
             TutorialContainer.TutorialContainerModified.AddListener(TranslateTutorialContainer);
             Tutorial.TutorialModified.AddListener(TranslateTutorial);
             TutorialPage.TutorialPageNonMaskingSettingsChanged.AddListener(OnTutorialPageNonMaskingSettingsChanged);
@@ -87,7 +87,7 @@ namespace Unity.NAME.Editor
 
         static void UnsubscribeFromModifications()
         {
-            TutorialWelcomePage.TutorialWelcomePageModified -= TranslateTutorialWelcomePage;
+            TutorialWelcomePage.TutorialWelcomePageModified.RemoveListener(TranslateTutorialWelcomePage);
             TutorialContainer.TutorialContainerModified.RemoveListener(TranslateTutorialContainer);
             Tutorial.TutorialModified.RemoveListener(TranslateTutorial);
             TutorialPage.TutorialPageNonMaskingSettingsChanged.RemoveListener(OnTutorialPageNonMaskingSettingsChanged);

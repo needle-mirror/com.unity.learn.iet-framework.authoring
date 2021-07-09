@@ -105,6 +105,9 @@ namespace Unity.Tutorials.Authoring.Editor
             tutorial.AddPage(tutorialSwitchPage);
 
             tutorial.TutorialTitle = "New Tutorial";
+            tutorial.ProgressTrackingEnabled = true;
+            tutorial.LessonId = Guid.NewGuid().ToString();
+
             if (container)
             {
                 TutorialContainer.Section lastTutorial = null;
@@ -112,9 +115,6 @@ namespace Unity.Tutorials.Authoring.Editor
                 {
                     lastTutorial = container.Sections.Where(s => !string.IsNullOrEmpty(s.TutorialId)).Last();
                 }
-
-                tutorial.ProgressTrackingEnabled = true;
-                tutorial.LessonId = Guid.NewGuid().ToString();
 
                 TutorialContainer.Section section = new TutorialContainer.Section();
                 section.OrderInView = 0;
@@ -126,13 +126,6 @@ namespace Unity.Tutorials.Authoring.Editor
                 Array.Copy(container.Sections, updatedTutorials, container.Sections.Length);
                 updatedTutorials[updatedTutorials.Length - 1] = section;
                 container.Sections = updatedTutorials;
-            }
-            else
-            {
-                Debug.LogWarning(
-                    Tr("The created tutorial does not belong to any TutorialContainer. The Lesson Id will be empty."),
-                    tutorial
-                );
             }
 
             if (windowLayout)

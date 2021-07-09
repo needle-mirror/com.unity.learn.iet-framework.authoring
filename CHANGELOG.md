@@ -4,9 +4,11 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.0-pre.6] - 2021-06-17
+## [1.0.0] - 2021-07-09
+
 ### Changed
-- Updated Tutorial Framework dependency to 2.0.0-pre.6.
+- Enable progress tracking by default for Ready-to-Use Tutorials, as is done for the tutorials of Ready-to-Use Tutorial Projects.
+- Updated Tutorial Framework dependency to 2.0.0.
 
 ### Removed
 - **Breaking change**: Removed `CommonTutorialCallbacks` assets. These are moved to Tutorial Framework.
