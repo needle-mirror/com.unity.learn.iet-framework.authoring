@@ -167,7 +167,7 @@ namespace Unity.Tutorials.Authoring.Editor
 
         [MenuItem(k_PageMenu + "Page with Narrative")]
         static TutorialPage CreateTutorialPageWithNarrative() => CreateTutorialPageWithNarrative(null);
-        static TutorialPage CreateTutorialPageWithNarrative(string assetPath)
+        internal static TutorialPage CreateTutorialPageWithNarrative(string assetPath)
         {
             return CreateTutorialPage(
                 new[]
@@ -181,7 +181,7 @@ namespace Unity.Tutorials.Authoring.Editor
 
         [MenuItem(k_PageMenu + "Page with Narrative and Instruction")]
         static TutorialPage CreateTutorialPageWithInstructions() => CreateTutorialPageWithInstructions(null);
-        static TutorialPage CreateTutorialPageWithInstructions(string assetPath)
+        internal static TutorialPage CreateTutorialPageWithInstructions(string assetPath)
         {
             return CreateTutorialPage(
                 new[]
@@ -196,7 +196,7 @@ namespace Unity.Tutorials.Authoring.Editor
 
         [MenuItem(k_PageMenu + "Page with Narrative, Instruction, and Tutorial Switch")]
         static TutorialPage CreateTutorialPageWithSwitch() => CreateTutorialPageWithSwitch(null, null);
-        static TutorialPage CreateTutorialPageWithSwitch(string assetPath, Tutorial nextTutorial)
+        internal static TutorialPage CreateTutorialPageWithSwitch(string assetPath, Tutorial nextTutorial)
         {
             return CreateTutorialPage(
                 new[]

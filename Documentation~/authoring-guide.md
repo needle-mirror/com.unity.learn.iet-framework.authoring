@@ -225,9 +225,9 @@ Masking won't be re-applied when navigating to a previous tutorial step (clickin
 
 **Use cases**
 
-1. To highlight a specific part / window of the Editor (e.g., the Inspector) or block interactions with it 
-1. To highlight a specific control (e.g., the Play button in the top bar) or block interactions with it 
-1. To highlight a specific property in the Inspector, a specific label, or a specific object in the Scene/Project view
+1. To highlight a specific part/window of the Editor, for example, the Inspector, or to mask and block interactions with it
+1. To highlight a specific control, for example, the Play button in the top bar, or to mask and block interactions with it
+1. To highlight a specific property in the Inspector, a specific label, or a specific object in the Scene view or Project window
 
 **How-to**
 
@@ -330,7 +330,7 @@ IET comes with a `CommonTutorialCallbacksHandler` asset which contains some comm
 
 **Use case**
 
-You want the user to perform certain actions during a tutorial in order to proceed to the next tutorial step (e.g., click on an object, delete an object, instantiate something, select a tool, etc.)
+You want the user to perform certain actions during a tutorial in order to proceed to the next tutorial step (for example, click on an object, delete an object, instantiate something, select a tool, etc.)
 
 **How-to**
 
@@ -376,11 +376,11 @@ You want to check if the user has performed an action (such as enabling an optio
 `ArbitraryCriterion` is fast and easy way to utilize simple criteria. For more complex criteria, one can consider implementing their own criteria by creating a class that inherits from the
 [Criterion](https://docs.unity3d.com/Packages/com.unity.learn.iet-framework@2.0/api/Unity.Tutorials.Core.Editor.Criterion.html) class. Your criterion will appear automatically as one of the **Type** options.
 
-## The Welcome Dialog 
+## The welcome dialog
 
 **Use case** 
 
-You want to provide a welcome dialog to users when they open the project for the first time, either to give them information about what they'll find in the project or to let them choose a starting point (e.g., ignore / start tutorials) 
+You want to welcome users to the tutorials when they open the project for the first time, either to give them information about what they'll find in the project or to let them choose a starting point, for example, an option to either ignore or start the tutorials in the project.
 
 **How-to**
 
@@ -460,13 +460,7 @@ You want to override the default dark / light themes of IET
 
 ## Rich text support
 
-You can use the following HTML tags in the tutorial assets' text fields.
-
-1. `<b>Text</b>`: **Text**
-1. `<i>Text</i>`: *Text*
-1. `<a href="https://unity.com/">Text</a>`: [Text](https://unity.com/)
-1. `Text<br/>More Text`: Text<br/>More Text
-1. `<wordwrap>Force word wrapping:ワードラップを強制する</wordwrap>`: Force word wrapping:ワードラップを強制する - CJK characters are considered words when wrapping unless overridden with this tag. Use it to wrap Korean correctly.
+Some HTML tags and character codes are supported: See reference [here](https://docs.unity3d.com/Packages/com.unity.learn.iet-framework@2.1/manual/framework-documentation.html#using-rich-text-in-tutorial-instructions-and-narratives)
 
 ![](images/index045.png)
 
