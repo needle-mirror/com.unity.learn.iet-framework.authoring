@@ -5,14 +5,14 @@ This package makes tooling available to be able to create Tutorials.
 ## Setup
 For Unity 2021.2 and newer, simply search for "Tutorial Authoring Tools" in the Package Manager. For older Unity versions, this package is not currently discoverable,
 and you need to add the following line to the `dependencies` list of `Packages/manifest.json`:  
-`"com.unity.learn.iet-framework.authoring": "1.0.1"`
+`"com.unity.learn.iet-framework.authoring": "1.0.2"`
 
 When using the authoring tools, it's best to have both Tutorial Framework and Tutorial Authoring Tools set explicitly as the dependencies of your project, for example:
 
     {
         "dependencies": {
-            "com.unity.learn.iet-framework": "2.2.0",
-            "com.unity.learn.iet-framework.authoring": "1.0.1"
+            "com.unity.learn.iet-framework": "2.2.1",
+            "com.unity.learn.iet-framework.authoring": "1.0.2"
         }
     }
 
