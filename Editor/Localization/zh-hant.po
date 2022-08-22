@@ -31,9 +31,6 @@ msgstr ""
 msgid "Run Startup Code"
 msgstr ""
 
-msgid "Clear InitCodeMarker"
-msgstr ""
-
 msgid "Restart Editor"
 msgstr ""
 

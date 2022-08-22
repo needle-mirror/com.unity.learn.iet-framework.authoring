@@ -1,7 +1,5 @@
 # Using Tutorial Authoring Tools
 
-Refers to version 2.0.0 of Tutorial Framework and 1.0.0 of Tutorial Authoring Tools.
-
 ## Purpose of the document
 
 This document provides information about how to get started with in-Editor tutorials (IET). It will show you how to set up authoring, as well as how to author tutorials to achieve common configurations and results.
@@ -16,7 +14,7 @@ To add the IET packages to your project, go to **Window** > **Package Manager** 
 
 ![](images/index001.png)
 
-Input "com.unity.learn.iet-framework@2.0.0", click **Add** or press Enter, and repeat the same procedure using "com.unity.learn.iet-framework.authoring@1.0.0-pre.4" as the input.
+Input "com.unity.learn.iet-framework@3.1.1", click **Add** or press Enter, and repeat the same procedure using "com.unity.learn.iet-framework.authoring@1.2.1" as the input.
 
 **NOTE:** Newer versions of both the framework and the authoring tools might be available, so you might want to check if they exist. You can do this by installing the versions listed here and then opening the package manager, clicking on the two packages, and checking for updated versions. 
 
@@ -36,8 +34,6 @@ If you don't see the above, make sure your manifest.json file looks correct.
 
 Before you start working on the tutorials, it's recommended to configure your version control software to ignore the following files:
 ```
-# A marker file of which existence is used to decide whether to run the first-launch experience, for example show the welcome dialog.
-InitCodeMarker
 # Tutorial Framework has a backup option for the project's content, let's ignore the possible backup folder.
 /Tutorial Defaults/
 ```
@@ -490,5 +486,4 @@ To test your changes:
 ## More tips
 
 1. Always close a running tutorial by completing it OR pressing the **Close** (**X**) near its page count. Exiting it in another way might lead to unexpected problems. 
-1. Try not to trigger a script compiling operation while a tutorial is running.
 1. You can edit tutorials while they're running, but be careful about changing the completion criteria of a current tutorial page. In that specific case, It is better if you select the current page, then click **Back**, change what you want to change, and then proceed to the page again. Doing this will also retrigger the custom callbacks that are set to be called when the page is displayed.

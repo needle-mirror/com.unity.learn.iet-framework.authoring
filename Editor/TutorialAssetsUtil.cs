@@ -169,13 +169,9 @@ namespace Unity.Tutorials.Authoring.Editor
         static TutorialPage CreateTutorialPageWithNarrative() => CreateTutorialPageWithNarrative(null);
         internal static TutorialPage CreateTutorialPageWithNarrative(string assetPath)
         {
-            return CreateTutorialPage(
-                new[]
-                {
-                    CreateImageParagraph(),
-                    CreateNarrativeParagraph("Page title", "Put your tutorial narrative description here")
-                },
-                assetPath
+            return CreateTutorialPage(assetPath,
+                    TutorialParagraph.CreateImageParagraph(),
+                    TutorialParagraph.CreateNarrativeParagraph("Page title", "Put your tutorial narrative description here")
             );
         }
 
@@ -183,14 +179,10 @@ namespace Unity.Tutorials.Authoring.Editor
         static TutorialPage CreateTutorialPageWithInstructions() => CreateTutorialPageWithInstructions(null);
         internal static TutorialPage CreateTutorialPageWithInstructions(string assetPath)
         {
-            return CreateTutorialPage(
-                new[]
-                {
-                    CreateImageParagraph(),
-                    CreateNarrativeParagraph("Page title", "Put your tutorial narrative description here"),
-                    CreateInstructionParagraph("Instruction title", "Put your tutorial instructions here")
-                },
-                assetPath
+            return CreateTutorialPage(assetPath,
+                    TutorialParagraph.CreateImageParagraph(),
+                    TutorialParagraph.CreateNarrativeParagraph("Page title", "Put your tutorial narrative description here"),
+                    TutorialParagraph.CreateInstructionParagraph("Instruction title", "Put your tutorial instructions here")
             );
         }
 
@@ -198,33 +190,34 @@ namespace Unity.Tutorials.Authoring.Editor
         static TutorialPage CreateTutorialPageWithSwitch() => CreateTutorialPageWithSwitch(null, null);
         internal static TutorialPage CreateTutorialPageWithSwitch(string assetPath, Tutorial nextTutorial)
         {
-            return CreateTutorialPage(
-                new[]
-                {
-                    CreateImageParagraph(),
-                    CreateNarrativeParagraph("Page title", "Put your tutorial narrative description here"),
-                    CreateInstructionParagraph("Instruction title", "Put your tutorial instructions here"),
-                    CreateTutorialSwitchParagraph(nextTutorial, "Tutorial X: Make the best game!"),
-                },
-                assetPath
+            return CreateTutorialPage(assetPath,
+                    TutorialParagraph.CreateImageParagraph(),
+                    TutorialParagraph.CreateNarrativeParagraph("Page title", "Put your tutorial narrative description here"),
+                    TutorialParagraph.CreateInstructionParagraph("Instruction title", "Put your tutorial instructions here"),
+                    TutorialParagraph.CreateTutorialSwitchParagraph(nextTutorial, "Tutorial X: Make the best game!")
             );
         }
 
-        static TutorialPage CreateTutorialPage(IEnumerable<TutorialParagraph> paragraphs, string assetPath)
+        static TutorialPage CreateTutorialPage(string assetPath, params TutorialParagraph[] paragraphs)
         {
-            var asset = ScriptableObject.CreateInstance<TutorialPage>();
-            asset.Paragraphs.SetItems(paragraphs);
+            return CreateTutorialPageAsset(TutorialPage.Create(paragraphs), assetPath);
+        }
+
+        static TutorialPage CreateTutorialPageAsset(TutorialPage page, string assetPath)
+        {
             if (assetPath == null)
             {
-                CreateAssetAndStartRenaming("New Tutorial Page.asset", asset);
+                CreateAssetAndStartRenaming("New Tutorial Page.asset", page);
             }
             else
             {
                 if (!assetPath.EndsWith(".asset"))
+                {
                     assetPath += ".asset";
-                CreateAsset(assetPath, asset);
+                }
+                CreateAsset(assetPath, page);
             }
-            return asset;
+            return page;
         }
 
         [MenuItem(k_Menu + "Tutorial Styles")]
@@ -314,7 +307,7 @@ namespace Unity.Tutorials.Authoring.Editor
         {
             try
             {
-                TutorialManager.DirectoryCopy(
+                UserStartupCode.DirectoryCopy(
                     $"{PackageInfo.FindForAssembly(Assembly.GetExecutingAssembly()).assetPath}/.LocalizationAssets",
                     path
                 );
@@ -372,10 +365,6 @@ namespace Unity.Tutorials.Authoring.Editor
             string path = EditorUtility.SaveFilePanelInProject("Save Layout", "layout.wlt", "wlt", "Choose the location to save the layout");
             if (path.Length != 0)
             {
-                // Make sure we don't save the contents of the window
-                var wnd = TutorialManager.GetTutorialWindow();
-                if (wnd)
-                    wnd.ClearContent();
                 WindowLayoutProxy.SaveWindowLayout(path);
                 AssetDatabase.Refresh();
             }
@@ -387,10 +376,10 @@ namespace Unity.Tutorials.Authoring.Editor
             string path = EditorUtility.OpenFilePanelWithFilters("Open Layout", "", new[] { "Layout files", "wlt,dwlt" });
             if (path.Length != 0)
             {
-                TutorialManager.LoadWindowLayout(path);
+                TutorialModel.LoadWindowLayout(path);
             }
         }
-            
+
         //[MenuItem(TutorialWindowMenuItem.MenuPath + "Masking/Remove TutorialWindow")]
         static void RemoveTutorialWindowFromMaskingSettings()
         {
@@ -493,20 +482,5 @@ namespace Unity.Tutorials.Authoring.Editor
                 so.ApplyModifiedProperties();
             }
         }
-
-        static TutorialParagraph CreateImageParagraph(Texture2D image = null) =>
-            new TutorialParagraph { Type = ParagraphType.Image, Image = image };
-
-        static TutorialParagraph CreateVideoParagraph(UnityEngine.Video.VideoClip video = null) =>
-            new TutorialParagraph { Type = ParagraphType.Video, Video = video };
-
-        static TutorialParagraph CreateNarrativeParagraph(string title, string description) =>
-            new TutorialParagraph { Type = ParagraphType.Narrative, Title = title, Text = description };
-
-        static TutorialParagraph CreateInstructionParagraph(string title, string description) =>
-            new TutorialParagraph { Type = ParagraphType.Instruction, Title = title, Text = description };
-
-        static TutorialParagraph CreateTutorialSwitchParagraph(Tutorial nextTutorial, string nextButtonText) =>
-            new TutorialParagraph { Type = ParagraphType.SwitchTutorial, m_Tutorial = nextTutorial, Text = nextButtonText };
     }
 }

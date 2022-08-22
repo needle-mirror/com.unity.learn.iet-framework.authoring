@@ -10,35 +10,36 @@ using static Unity.Tutorials.Core.Editor.POFileUtils;
 
 namespace Unity.Tutorials.Authoring.Editor
 {
+    //note: localization does not work when called from this class
     static class InternalMenuItem
     {
         [MenuItem(MenuItems.AuthoringMenuPath + "Debug/Restart Editor")]
         static void RestartEditor() => UserStartupCode.RestartEditor();
 
-        // TODO not working as intented, doesn't show the Readme. Fix.
-        //[MenuItem(TutorialWindowMenuItem.MenuPath + TutorialWindowMenuItem.Item + " (No Layout Change)")]
-        static void OpenTutorialWindow()
-        {
-            TutorialWindow.GetOrCreateWindow();
-        }
-
         [MenuItem(MenuItems.AuthoringMenuPath + "Localization/Extract Localizable Strings for the Project...")]
         static void ExtractLocalizableStrings()
         {
             string poFolderPath = EditorUtility.OpenFolderPanel(
-                Localization.Tr("Choose Folder for the Translation Files"),
+                "Choose Folder for the Translation Files",
                 Application.dataPath,
                 string.Empty
             );
             if (poFolderPath.IsNullOrEmpty())
+            {
                 return;
+            }
+            else if (!ContainsTranslatorFile(poFolderPath))
+            {
+                Debug.LogError("Could not find Translator.cs in the selected folder. Did you create Localization Assets through the  'Create > Tutorials > Localization Assets' menu already? Full instructions here: https://docs.unity3d.com/Packages/com.unity.learn.iet-framework.authoring@1.0/manual/authoring-guide.html#rich-text-support");
+                return;
+            }
 
             if (SupportedLanguages.Values.Any(code => File.Exists($"{poFolderPath}/{code}.po")))
             {
-                var title = Localization.Tr("Localization");
-                var msg = Localization.Tr("The folder contains translation files already, they will be overwritten.");
-                var ok = Localization.Tr("Continue");
-                var cancel = Localization.Tr("Cancel");
+                var title = "Localization";
+                var msg = "The folder contains translation files already, they will be overwritten.";
+                var ok = "Continue";
+                var cancel = "Cancel";
                 if (!EditorUtility.DisplayDialog(title, msg, ok, cancel))
                     return;
             }
@@ -80,29 +81,55 @@ namespace Unity.Tutorials.Authoring.Editor
             // Get rid of duplicate msgids, omit empty msgids as they can cause problems for some PO editors
             var uniqueEntries = entries
                 .Where(entry => entry.IsValid())
-                .GroupBy(entry => entry.UntranslatedString)
+                .GroupBy(entry => entry.ID)
                 .Select(group => group.FirstOrDefault());
 
             foreach (var code in SupportedLanguages.Values)
+            {
                 WritePOFile(Application.productName, Application.version, code, uniqueEntries, $"{poFolderPath}/{code}.po");
+            }
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+        }
+
+        static bool ContainsTranslatorFile(string directory)
+        {
+            foreach (string file in Directory.GetFiles(directory))
+            {
+                if (Path.GetFileName(file) == "Translator.cs")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        static void DEV_ConvertIETLocalizationFilesFromV2ToV3()
+        {
+            POFileUtils.ConvertIETLocalizationFileFromV2ToV3("ja");
+            POFileUtils.ConvertIETLocalizationFileFromV2ToV3("ko");
+            POFileUtils.ConvertIETLocalizationFileFromV2ToV3("zh-hans");
+            POFileUtils.ConvertIETLocalizationFileFromV2ToV3("zh-hant");
+        }
+
+        /// <summary>
+        /// This method is used by IET developers when they update the english file and want to sync other files accordingly.
+        /// It is not supposed to be used by normal users.
+        /// Uncomment when needed (I.E: before a release)
+        /// </summary>
+        //[MenuItem(MenuItems.AuthoringMenuPath + "Localization/(DEV) Sync IET Localization Files With English")]
+        static void DEV_SyncIETLocalizationFilesWithEnglish()
+        {
+            POFileUtils.SyncIETLocalizationFileWithEnglish("ja");
+            POFileUtils.SyncIETLocalizationFileWithEnglish("ko");
+            POFileUtils.SyncIETLocalizationFileWithEnglish("zh-hans");
+            POFileUtils.SyncIETLocalizationFileWithEnglish("zh-hant");
         }
 
         [MenuItem(MenuItems.AuthoringMenuPath + "Debug/Run Startup Code")]
         static void ExecuteFirstLaunchExperience()
         {
             UserStartupCode.RunStartupCode(TutorialProjectSettings.Instance);
-        }
-
-        [MenuItem(MenuItems.AuthoringMenuPath + "Debug/Clear InitCodeMarker", isValidateFunction: true)]
-        static bool Validate_ClearInitCodeMarker()
-        {
-            return File.Exists(UserStartupCode.initFileMarkerPath);
-        }
-
-        [MenuItem(MenuItems.AuthoringMenuPath + "Debug/Clear InitCodeMarker")]
-        static void ClearInitCodeMarker()
-        {
-            File.Delete(UserStartupCode.initFileMarkerPath);
         }
 
         // These resolutions cover 87 % of our new macOS and Windows users (spring 2020)
@@ -116,7 +143,7 @@ namespace Unity.Tutorials.Authoring.Editor
         // 2560 x 1440  -- ‭1.777777777777778‬
         // 3840 x 2160  -- ‭1.777777777777778‬
         // Looking at the ratios, we could maybe drop the many of these and keep only single one of each ration.
-        [MenuItem(MenuItems.AuthoringMenuPath +  "Layout/Window Size/1366 x 768")]
+        [MenuItem(MenuItems.AuthoringMenuPath + "Layout/Window Size/1366 x 768")]
         static void SetWindowSize_1366x768() => SetMainWindowSize(1366, 768);
         [MenuItem(MenuItems.AuthoringMenuPath + "Layout/Window Size/1440 x 900")]
         static void SetWindowSize_1440x900() => SetMainWindowSize(1440, 900);
@@ -158,7 +185,7 @@ namespace Unity.Tutorials.Authoring.Editor
                 .Select(pi => new POEntry
                 {
                     Reference = $"{obj.GetType().Name}.{pi.Name}",
-                    UntranslatedString = (pi.GetValue(obj) as LocalizableString).Untranslated
+                    ID = (pi.GetValue(obj) as LocalizableString).Untranslated
                 });
 
             var localizableFields = obj.GetType().GetFields(bindedTypes)
@@ -166,7 +193,7 @@ namespace Unity.Tutorials.Authoring.Editor
                 .Select(fi => new POEntry
                 {
                     Reference = $"{obj.GetType().Name}.{fi.Name}",
-                    UntranslatedString = (fi.GetValue(obj) as LocalizableString).Untranslated
+                    ID = (fi.GetValue(obj) as LocalizableString).Untranslated
                 });
 
             return localizableProps.Concat(localizableFields);
@@ -186,7 +213,7 @@ namespace Unity.Tutorials.Authoring.Editor
 
         void OnEnable()
         {
-            titleContent.text = Localization.Tr("Set Window Size");
+            titleContent.text = "Set Window Size";
             minSize = maxSize = new Vector2(300, 100);
         }
 
@@ -199,7 +226,7 @@ namespace Unity.Tutorials.Authoring.Editor
             m_MainWinHeight = Mathf.Max(542, m_MainWinHeight);
 
             GUILayout.FlexibleSpace();
-            if (GUILayout.Button(Localization.Tr("Set")))
+            if (GUILayout.Button("Set"))
             {
                 InternalMenuItem.SetMainWindowSize(m_MainWinWidth, m_MainWinHeight);
             }

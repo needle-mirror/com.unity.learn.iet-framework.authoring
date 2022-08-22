@@ -33,7 +33,7 @@ namespace Unity.Tutorials.Authoring.Editor
                     }
                     Debug.Log("Lesson statuses cleared");
                     // Refresh the window, if it's open.
-                    var wnd = TutorialManager.GetTutorialWindow();
+                    var wnd = TutorialWindow.Instance;
                     if (wnd)
                     {
                         wnd.MarkAllTutorialsUncompleted();

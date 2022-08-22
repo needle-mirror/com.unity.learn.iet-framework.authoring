@@ -68,7 +68,7 @@ namespace Unity.Tutorials.Authoring.Editor
 
                     int pageNumber = 0;
 
-                    foreach (var pg in tutorial.Pages)
+                    foreach (var pg in tutorial.PagesCollection)
                     {
                         WriteField(sw, indentLevel, $"Page {++pageNumber}/{tutorial.PageCount}:");
                         ++indentLevel;

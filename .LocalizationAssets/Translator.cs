@@ -1,4 +1,4 @@
-﻿//#define DEBUG_PRINTS
+//#define DEBUG_PRINTS
 
 using System;
 using System.Collections.Generic;
@@ -35,6 +35,7 @@ namespace Unity.NAME.Editor
                     asset.StartsWith(k_MonitoredPath))
                 )
             {
+                TutorialWindowUtils.ClearLocalizationCache();
                 Translator.TranslateAll();
             }
         }
@@ -102,27 +103,37 @@ namespace Unity.NAME.Editor
         {
             int numNewTranslations = TranslateObject(welcomePg);
             foreach (var button in welcomePg.Buttons)
+            {
                 numNewTranslations += TranslateObject(button);
+            }
 
             if (numNewTranslations > 0)
+            {
                 welcomePg.RaiseModified();
+            }
         }
 
         static void TranslateTutorialContainer(TutorialContainer container)
         {
             int numNewTranslations = TranslateObject(container);
             foreach (var section in container.Sections)
+            {
                 numNewTranslations += TranslateObject(section);
+            }
 
             if (numNewTranslations > 0)
+            {
                 container.RaiseModified();
+            }
         }
 
         static void TranslateTutorial(Tutorial tutorial)
         {
             int numNewTranslations = TranslateObject(tutorial);
-            foreach (var pg in tutorial.Pages)
+            foreach (var pg in tutorial.PagesCollection)
+            {
                 numNewTranslations += TranslateTutorialPage(pg);
+            }
 
             if (numNewTranslations > 0)
             {
@@ -134,10 +145,14 @@ namespace Unity.NAME.Editor
         {
             int numNewTranslations = TranslateObject(pg);
             foreach (var paragraph in pg.Paragraphs)
+            {
                 numNewTranslations += TranslateObject(paragraph);
+            }
 
             if (numNewTranslations > 0)
+            {
                 pg.RaiseNonMaskingSettingsChanged();
+            }
 
             return numNewTranslations;
         }
@@ -161,7 +176,9 @@ namespace Unity.NAME.Editor
                     pi.SetValue(obj, str);
 
                     if (oldTranslation.IsNotNullOrEmpty() && str.Translated != oldTranslation)
+                    {
                         ++numNewTranslations;
+                    }
                 });
 
             obj.GetType().GetFields(bindedTypes)
@@ -178,7 +195,9 @@ namespace Unity.NAME.Editor
                     fi.SetValue(obj, str);
 
                     if (oldTranslation.IsNotNullOrEmpty() && str.Translated != oldTranslation)
+                    {
                         ++numNewTranslations;
+                    }
                 });
 
             return numNewTranslations;

@@ -9,7 +9,7 @@ This package should be used while developing tutorials, but the final published 
 ## Installation
 For Unity 2021.2 and newer, simply search for "Tutorial Authoring Tools" in the Package Manager. For older Unity versions, this package is not currently discoverable,
 and you need to add the following line to the `dependencies` list of `Packages/manifest.json`:  
-`"com.unity.learn.iet-framework.authoring": "1.0.0"`
+`"com.unity.learn.iet-framework.authoring": "1.2.1"`
 
 Make sure the framework and the authoring tools have compatible versions, which are most likely the latest versions of each package.
 
@@ -17,4 +17,4 @@ Make sure the framework and the authoring tools have compatible versions, which 
 
 This version of Tutorial Authoring Tools is compatible with the following versions of the Unity Editor:
 
-* 2019.4 and later (LTS versions recommended)
+* 2020.3 and later (LTS versions recommended)
