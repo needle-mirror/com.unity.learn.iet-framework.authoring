@@ -4,6 +4,10 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.2] - 2023-02-06
+### Changed
+- Dependencies updated to iet-framework 3.1.3
+
 ## [1.2.1] - 2022-08-22
 ### Added
 - Added "Autocomplete page" button to the Authoring toolbar
@@ -79,7 +83,7 @@ Tutorial Exporter was experimental and not supported officially.
 
 ### Changed
 - `TutorialStructureExtractor`: use the current Editor language in the default file name, move the menu item under _Localization_ submenu.
-- Updated Tutorial Framework dependency to 1.2.1.
+- Updated Tutorial Framework dependency to 1.2.0.
 
 ## [0.6.3] - 2020-09-22
 ### Added
@@ -90,7 +94,7 @@ Tutorial Exporter was experimental and not supported officially.
 
 ### Changed
 - Raised the required Unity version to 2019.4.
-- Updated Tutorial Framework dependency to 1.2.1.
+- Updated Tutorial Framework dependency to 1.2.0.
 - Moved "Run Startup Code" to be the last button of the toolbar, allowing "Preview Masking" to be visible and accessible increasing the window width.
 - Unit tests are omitted from the package.
 
