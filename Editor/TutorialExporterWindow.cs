@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Unity.Tutorials.Core.Editor;
-
+using Unity.Tutorials.Editor;
 using Debug = UnityEngine.Debug;
 
 namespace Unity.Tutorials.Authoring.Editor
@@ -56,8 +56,8 @@ namespace Unity.Tutorials.Authoring.Editor
 
                 var guid = guids[index++];
                 var assetPath = AssetDatabase.GUIDToAssetPath(guid);
-                var instanceID = -1;// TODO internal access: AssetDatabase.GetMainAssetInstanceID(assetPath);
-                var tutorial = (Tutorial)EditorUtility.InstanceIDToObject(instanceID);
+                var instanceID = IdUtils.NullId;// TODO internal access: AssetDatabase.GetMainAssetInstanceID(assetPath);
+                var tutorial = (Tutorial)IdUtils.IdToObject(instanceID);
                 var packagePath = Path.Combine(path, tutorial.name + ".unitypackage");
 
                 ExportTutorial(tutorial, packagePath, true, true, new List<string>(), ExportNextTutorial);

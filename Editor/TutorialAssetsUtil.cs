@@ -90,8 +90,8 @@ namespace Unity.Tutorials.Authoring.Editor
 
             Tutorial tutorial = CreateEmptyTutorial($"{path}/New Tutorial.asset");
 
-            // TODO: this would be the ideal solution to provide a more complete setup experience, 
-            // but a bug with Scriptable object prevents Scriptable Objects created "after" to 
+            // TODO: this would be the ideal solution to provide a more complete setup experience,
+            // but a bug with Scriptable object prevents Scriptable Objects created "after" to
             // be referenced from Scriptable Objects created before them...
 
             //TutorialPage tutorialSwitchPage = CreateTutorialPageWithSwitch("15-LastPage", tutorial);
@@ -342,7 +342,11 @@ namespace Unity.Tutorials.Authoring.Editor
 
         static void CreateAssetWithContentAndStartRenaming(string assetName, string content, Texture2D icon)
         {
+#if UNITY_EDITOR_6000_4_OR_NEWER
+            ProjectWindowUtil.CreateAssetWithTextContent($"{GetActiveFolderPath()}/{assetName}", content, icon);
+#else
             ProjectWindowUtil.CreateAssetWithContent($"{GetActiveFolderPath()}/{assetName}", content, icon);
+#endif
         }
 
         // Creates a new instance of an asset to the wanted path.
