@@ -4,7 +4,7 @@ All notable changes to this package will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this package adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0-pre.3] - 2026-03-01
+## [2.0.0-pre.5] - 2026-03-01
 ### Changed
 - Dependencies updated to iet-framework 6.0.0
 
