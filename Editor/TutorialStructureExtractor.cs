@@ -3,12 +3,14 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using Unity.Tutorials.Core.Editor;
+using Unity.Tutorials.Editor;
 
 namespace Unity.Tutorials.Authoring.Editor
 {
     static class TutorialStructureExtractor
     {
+        // TODO: Check if this still works
+        /*
         [MenuItem(MenuItems.AuthoringMenuPath + "Localization/Extract Tutorial Structure of the Project...")]
         static void Extract()
         {
@@ -73,11 +75,11 @@ namespace Unity.Tutorials.Authoring.Editor
                         WriteField(sw, indentLevel, $"Page {++pageNumber}/{tutorial.PageCount}:");
                         ++indentLevel;
                         // first paragraph (index 0) is the mandatory media header
-                        var narrative = pg.Paragraphs.ElementAtOrDefault(1);
+                        var narrative = pg.LegacyParagraphs.ElementAtOrDefault(1);
                         // Instruction paragraph is optional
-                        var instruction = pg.Paragraphs.ElementAtOrDefault(2);
+                        var instruction = pg.LegacyParagraphs.ElementAtOrDefault(2);
                         // Tutorial switch paragraph is optional
-                        var switchTutorial = pg.Paragraphs.ElementAtOrDefault(3);
+                        var switchTutorial = pg.LegacyParagraphs.ElementAtOrDefault(3);
 
                         WriteField(sw, indentLevel, "Narrative Title", narrative.Title);
                         WriteField(sw, indentLevel, "Narrative Text", narrative.Text);
@@ -127,5 +129,7 @@ namespace Unity.Tutorials.Authoring.Editor
             AssetDatabase.FindAssets($"t:{typeof(T).FullName}")
                 .Select(AssetDatabase.GUIDToAssetPath)
                 .Select(AssetDatabase.LoadAssetAtPath<T>);
+
+        */
     }
 }

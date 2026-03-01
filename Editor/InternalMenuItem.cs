@@ -4,9 +4,9 @@ using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using Unity.Tutorials.Core.Editor;
+using Unity.Tutorials.Editor;
 
-using static Unity.Tutorials.Core.Editor.POFileUtils;
+using static Unity.Tutorials.Editor.POFileUtils;
 
 namespace Unity.Tutorials.Authoring.Editor
 {
@@ -197,6 +197,12 @@ namespace Unity.Tutorials.Authoring.Editor
                 });
 
             return localizableProps.Concat(localizableFields);
+        }
+
+        [MenuItem(MenuItems.AuthoringMenuPath + "Upgrade Tutorial Data to v6")]
+        static void UpgradeToV6()
+        {
+            TutorialEditorUtils.StartV6Upgrade();
         }
     }
 

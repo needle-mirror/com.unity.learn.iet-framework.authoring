@@ -1,4 +1,4 @@
-﻿# About Tutorial Authoring Tools
+# About Tutorial Authoring Tools
 
 ![](images/hero.png)
 
@@ -8,7 +8,7 @@ This package should be used while developing tutorials, but the final published 
 
 ## Installation
 For Unity 2021.2 and newer, simply search for "Tutorial Authoring Tools" in the Package Manager. For older Unity versions, this package is not currently discoverable,
-and you need to add the following line to the `dependencies` list of `Packages/manifest.json`:  
+and you need to add the following line to the `dependencies` list of `Packages/manifest.json`:
 `"com.unity.learn.iet-framework.authoring": "1.2.1"`
 
 Make sure the framework and the authoring tools have compatible versions, which are most likely the latest versions of each package.

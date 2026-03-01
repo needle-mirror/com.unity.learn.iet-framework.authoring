@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using Unity.Tutorials.Core.Editor;
+using Unity.Tutorials.Editor;
 
 namespace Unity.Tutorials.Authoring.Editor
 {

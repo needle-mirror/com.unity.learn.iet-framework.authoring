@@ -5,14 +5,12 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
-using Unity.Tutorials.Core.Editor;
+using Unity.Tutorials.Editor;
 
 using Debug = UnityEngine.Debug;
 
 namespace Unity.Tutorials.Authoring.Editor
 {
-    // NOTE ProjectMode.IsAuthoringMode() dependes on the full name of this class.
-    // If renaming this class or its namespace, make sure to adjust ProjectMode.IsAuthoringMode().
     // TODO Decide what to do with this class
     class TutorialExporterWindow : EditorWindow
     {
@@ -34,31 +32,36 @@ namespace Unity.Tutorials.Authoring.Editor
         //TODO [MenuItem("Tutorials/Export Tutorial...")]
         public static void OpenWindow()
         {
-            var window = GetWindow<TutorialExporterWindow>();
+            TutorialExporterWindow window = GetWindow<TutorialExporterWindow>();
             window.Show();
         }
 
         //TODO [MenuItem("Tutorials/Export all with default settings")]
         public static void ExportAll()
         {
-            var guids = AssetDatabase.FindAssets("t:Tutorial", null);
-            var projectPath = Application.dataPath.Substring(0, Application.dataPath.Length - "/Assets".Length);
-            var path = EditorUtility.SaveFolderPanel("Export tutorials", projectPath, "tutorials");
+            string[] guids = AssetDatabase.FindAssets("t:Tutorial", null);
+            string projectPath = Application.dataPath.Substring(0, Application.dataPath.Length - "/Assets".Length);
+            string path = EditorUtility.SaveFolderPanel("Export tutorials", projectPath, "tutorials");
 
             if (guids.Length == 0)
                 return;
 
-            var index = 0;
+            int index = 0;
             void ExportNextTutorial(bool successOfPreviousExport)
             {
                 if (index >= guids.Length)
                     return;
 
-                var guid = guids[index++];
-                var assetPath = AssetDatabase.GUIDToAssetPath(guid);
-                var instanceID = -1;// TODO internal access: AssetDatabase.GetMainAssetInstanceID(assetPath);
-                var tutorial = (Tutorial)EditorUtility.InstanceIDToObject(instanceID);
-                var packagePath = Path.Combine(path, tutorial.name + ".unitypackage");
+                string guid = guids[index++];
+                string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+#if UNITY_6000_3_OR_NEWER
+                EntityId instanceID = EntityId.None;
+                Tutorial tutorial = (Tutorial)EditorUtility.EntityIdToObject(instanceID);
+#else
+                int instanceID = -1;// TODO internal access: AssetDatabase.GetMainAssetInstanceID(assetPath);
+                Tutorial tutorial = (Tutorial)EditorUtility.InstanceIDToObject(instanceID);
+#endif
+                string packagePath = Path.Combine(path, tutorial.name + ".unitypackage");
 
                 ExportTutorial(tutorial, packagePath, true, true, new List<string>(), ExportNextTutorial);
             }
@@ -86,7 +89,7 @@ namespace Unity.Tutorials.Authoring.Editor
             EditorGUILayout.LabelField("Additional folders to include:", EditorStyles.boldLabel);
             if (GUILayout.Button("add", GUILayout.Width(80)))
             {
-                var path = EditorUtility.OpenFolderPanel("Select additional folders to include", "Assets", "");
+                string path = EditorUtility.OpenFolderPanel("Select additional folders to include", "Assets", "");
                 if (!string.IsNullOrEmpty(path))
                 {
                     path = Path.GetFullPath(path);
@@ -95,7 +98,7 @@ namespace Unity.Tutorials.Authoring.Editor
             }
             EditorGUILayout.EndHorizontal();
 
-            foreach (var path in m_AdditionalDirectories)
+            foreach (string path in m_AdditionalDirectories)
             {
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField(MakePathRelative(path));
@@ -114,9 +117,9 @@ namespace Unity.Tutorials.Authoring.Editor
 
             m_AutoOpen = EditorGUILayout.ToggleLeft("Open project with exported package when done", m_AutoOpen);
 
-            using (var disabledScope = new EditorGUI.DisabledScope(m_Tutorial == null || TutorialExporter.exportInProgress))
+            using (EditorGUI.DisabledScope disabledScope = new EditorGUI.DisabledScope(m_Tutorial == null || TutorialExporter.exportInProgress))
             {
-                var buttonText = "Export package";
+                string buttonText = "Export package";
                 if (m_Tutorial == null)
                     buttonText += " (No tutorial selected)";
                 else if (TutorialExporter.exportInProgress)
@@ -132,19 +135,19 @@ namespace Unity.Tutorials.Authoring.Editor
             EditorGUILayout.Space();
             EditorGUILayout.Space();
 
-            var forceDisableMask = EditorPrefs.GetBool("Unity.Tutorials.Core.Editor.forceDisableMask", false);
+            bool forceDisableMask = EditorPrefs.GetBool("Unity.Tutorials.Editor.forceDisableMask", false);
             EditorGUI.BeginChangeCheck();
             forceDisableMask = EditorGUILayout.ToggleLeft("Force Disable Masking in this machine", forceDisableMask);
             if (EditorGUI.EndChangeCheck())
             {
-                EditorPrefs.SetBool("Unity.Tutorials.Core.Editor.forceDisableMask", forceDisableMask);
+                EditorPrefs.SetBool("Unity.Tutorials.Editor.forceDisableMask", forceDisableMask);
             }
         }
 
         void ExportTutorial()
         {
-            var projectPath = Application.dataPath.Substring(0, Application.dataPath.Length - "/Assets".Length);
-            var packagePath = EditorUtility.SaveFilePanel("Export tutorial", projectPath, m_Tutorial.name, "unitypackage");
+            string projectPath = Application.dataPath.Substring(0, Application.dataPath.Length - "/Assets".Length);
+            string packagePath = EditorUtility.SaveFilePanel("Export tutorial", projectPath, m_Tutorial.name, "unitypackage");
             if (string.IsNullOrEmpty(packagePath))
                 return;
 
@@ -164,26 +167,26 @@ namespace Unity.Tutorials.Authoring.Editor
             }
 
             // Paths are relative to project directory and must use forward slashes as directory separator
-            var additionalAssets = new HashSet<string>();
+            HashSet<string> additionalAssets = new HashSet<string>();
             // Include all scripts if desired
             // Scripts can reference types in other scripts and this won't be picked up as a dependency automatically
             if (includeAllScripts)
             {
-                var scriptAssets = AssetDatabase.FindAssets("t:script").Select(AssetDatabase.GUIDToAssetPath);
+                IEnumerable<string> scriptAssets = AssetDatabase.FindAssets("t:script").Select(AssetDatabase.GUIDToAssetPath);
                 additionalAssets.UnionWith(scriptAssets);
             }
             // Include all shaders if desired
             // Shaders are referenced by name and won't be picked up as a dependency automatically
             if (includeAllShaders)
             {
-                var shaderAssets = AssetDatabase.FindAssets("t:shader").Select(AssetDatabase.GUIDToAssetPath);
-                var cgProgramAssets = AssetDatabase.FindAssets("t:cgprogram").Select(AssetDatabase.GUIDToAssetPath);
+                IEnumerable<string> shaderAssets = AssetDatabase.FindAssets("t:shader").Select(AssetDatabase.GUIDToAssetPath);
+                IEnumerable<string> cgProgramAssets = AssetDatabase.FindAssets("t:cgprogram").Select(AssetDatabase.GUIDToAssetPath);
                 additionalAssets.UnionWith(shaderAssets);
                 additionalAssets.UnionWith(cgProgramAssets);
             }
-            foreach (var directory in additionalDirectories)
+            foreach (string directory in additionalDirectories)
             {
-                foreach (var absolutePath in Directory.GetFiles(Path.GetFullPath(directory), "*", SearchOption.AllDirectories))
+                foreach (string absolutePath in Directory.GetFiles(Path.GetFullPath(directory), "*", SearchOption.AllDirectories))
                     additionalAssets.Add(MakePathRelative(absolutePath));
             }
 
@@ -198,11 +201,11 @@ namespace Unity.Tutorials.Authoring.Editor
 
         static void OpenTemporaryProject(string packagePath)
         {
-            var executablePath = EditorApplication.applicationPath;
+            string executablePath = EditorApplication.applicationPath;
             if (Application.platform == RuntimePlatform.OSXEditor)
                 executablePath += "/Contents/MacOS/Unity";
 
-            var process = new Process()
+            Process process = new Process()
             {
                 StartInfo = new ProcessStartInfo()
                 {
@@ -216,8 +219,8 @@ namespace Unity.Tutorials.Authoring.Editor
 
         static string MakePathRelative(string path)
         {
-            var fullPath = Path.GetFullPath(path); // Normalize directory separators
-            var projectPath = Path.GetFullPath(Application.dataPath);
+            string fullPath = Path.GetFullPath(path); // Normalize directory separators
+            string projectPath = Path.GetFullPath(Application.dataPath);
             if (!fullPath.StartsWith(projectPath))
                 return path;
             return path.Substring(projectPath.Length - "Assets".Length).Replace(@"\", "/");
