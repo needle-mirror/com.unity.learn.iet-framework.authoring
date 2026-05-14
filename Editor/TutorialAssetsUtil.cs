@@ -342,7 +342,7 @@ namespace Unity.Tutorials.Authoring.Editor
 
         static void CreateAssetWithContentAndStartRenaming(string assetName, string content, Texture2D icon)
         {
-#if UNITY_EDITOR_6000_4_OR_NEWER
+#if UNITY_6000_4_OR_NEWER
             ProjectWindowUtil.CreateAssetWithTextContent($"{GetActiveFolderPath()}/{assetName}", content, icon);
 #else
             ProjectWindowUtil.CreateAssetWithContent($"{GetActiveFolderPath()}/{assetName}", content, icon);

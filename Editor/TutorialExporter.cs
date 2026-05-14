@@ -28,6 +28,8 @@ namespace Unity.Tutorials.Authoring.Editor
 
         static TutorialExporter()
         {
+#if !UNITY_6000_6_OR_NEWER
+
             const string typeName = "UnityEditor.PackageUtility";
             var packageUtilityType = typeof(PackageInfo).Assembly.GetType(typeName);
             if (packageUtilityType == null)
@@ -41,10 +43,15 @@ namespace Unity.Tutorials.Authoring.Editor
                 BindingFlags.Static | BindingFlags.Public);
             if (s_ExportPackageAndPackageManagerManifestMethod == null)
                 Debug.LogError($"Cannot find method {methodName} on type {typeName}");
+#endif
         }
 
         static bool ExportPackageAndPackageManagerManifest(string[] assetPathNames, string fileName)
         {
+#if UNITY_6000_6_OR_NEWER
+            return false;
+#else
+
             // Convert asset paths to GUIDs
             var guids = new string[assetPathNames.Length];
             for (var i = 0; i < assetPathNames.Length; i++)
@@ -63,6 +70,7 @@ namespace Unity.Tutorials.Authoring.Editor
             s_ExportPackageAndPackageManagerManifestMethod.Invoke(null, new object[] { guids, fileName });
 
             return true;
+#endif
         }
 
         internal static void ExportPackageForTutorial(string packagePath, Tutorial tutorial, IEnumerable<string> additionalAssets, Action<bool> callback)
