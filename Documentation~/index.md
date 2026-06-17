@@ -2,14 +2,16 @@
 
 ![](images/hero.png)
 
-This package is used to author interactive in-Editor tutorials (IET) in tutorial projects and project templates. This package provides only UI functionality and no public APIs.
+The Tutorial Authoring Tools package contains the authoring tools you need to create and edit IETs. You use this package while you author your IETs, and then remove it from the project before final delivery.
 
-This package should be used while developing tutorials, but the final published tutorial project should not typically include this package as a dependency.
+For the user to experience IETs, they need to have the [Tutorial Framework](https://docs.unity3d.com/Packages/com.unity.learn.iet-framework@latest) package installed.
 
 ## Installation
-For Unity 2021.2 and newer, simply search for "Tutorial Authoring Tools" in the Package Manager. For older Unity versions, this package is not currently discoverable,
-and you need to add the following line to the `dependencies` list of `Packages/manifest.json`:
-`"com.unity.learn.iet-framework.authoring": "1.2.1"`
+1. From the main menu of the Unity Editor, select **Window** > **Package Management** > **Package Manager**.
+2. From the [navigation panel](https://docs.unity3d.com/Manual/upm-ui-nav.html), select **Unity Registry**.
+3. Search for “Tutorial Authoring Tools”, then click **Install**.
+
+**Note:** This will also install the Tutorial Framework package as a dependency.
 
 Make sure the framework and the authoring tools have compatible versions, which are most likely the latest versions of each package.
 
@@ -17,4 +19,10 @@ Make sure the framework and the authoring tools have compatible versions, which 
 
 This version of Tutorial Authoring Tools is compatible with the following versions of the Unity Editor:
 
-* 2020.3 and later (LTS versions recommended)
+* Unity 6.5 and newer
+
+## Dependencies
+
+Tutorial Authoring Tools 2.1.0 depends on the following packages:
+
+* Tutorial Framework `com.unity.learn.iet-framework` 6.1.0

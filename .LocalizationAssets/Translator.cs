@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Unity.Tutorials.Core.Editor;
+using Unity.Tutorials.Editor;
 using UnityEditor;
 using UnityEngine;
 

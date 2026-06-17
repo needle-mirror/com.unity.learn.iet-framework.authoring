@@ -1,5 +1,11 @@
 * [Tutorial Authoring Tools](index.md)
-* [What's new](whats-new.md)
-* [Upgrade guide](upgrade-guide.md)
-* [Tutorial authoring guide](authoring-guide.md)
-* [Tutorial Framework documentation](https://docs.unity3d.com/Packages/com.unity.learn.iet-framework@2.0/manual/framework-documentation.html)
+  * [What's new](whats-new.md)
+  * [Upgrade guide](upgrade-guide.md)
+* [Project setup](project-setup.md)
+* Authoring Tools
+  * [The Authoring Toolbar](authoring-toolbar.md)
+  * [Tutorials Overview Window](overview-window.md)
+* Authoring Topics
+  * [Masking and Highlighting](masking-highlighting.md)
+  * [Rich Text](rich-text.md)
+  * [Customizing Tutorial Styles](custom-styling.md)
