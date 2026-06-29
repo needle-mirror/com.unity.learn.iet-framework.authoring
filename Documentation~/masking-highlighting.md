@@ -6,13 +6,13 @@ You can mask and unmask any part of the Unity Editor to prevent unnecessary inte
 
 Where to find masking:
 
-1. In a [Tutorial Page](https://docs.unity3d.com/Packages/com.unity.learn.iet-framework@latest?subfolder=/manual/tutorial-pages.html) asset, under the **Paragraphs** section, select the **Add** (**+**) button, then select the paragraph type you want to create.
+1. In a [Tutorial Page](https://docs.unity3d.com/Packages/com.unity.learn.iet-framework@latest/manual/tutorial-pages.html) asset, under the **Paragraphs** section, select the **Add** (**+**) button, then select the paragraph type you want to create.
 2. For the **Instructions**, **Media**, and **Narrative** paragraph types, there's an **Enable Masking** checkbox. Enable it to reveal the masking settings.
 3. Use the foldout (triangle) to expand the **Unmasked Views** section, then select the **Add** (**+**) button to add an **Unmasked View**. Each entry in this list defines a part of the Editor that will remain visible (unmasked) while the page is shown.
 
 ## Mask Presets
 
-The Tutorial Framework package offers Masking Presets to be able to create preset masks that can be reused across different Tutorials. Find out more in the Reference for [MaskingPreset](https://docs.unity3d.com/Packages/com.unity.learn.iet-framework@latest?subfolder=/manual/masking-presets.html).
+The Tutorial Framework package offers Masking Presets to be able to create preset masks that can be reused across different Tutorials. Find out more in the Reference for [MaskingPreset](https://docs.unity3d.com/Packages/com.unity.learn.iet-framework@latest/manual/masking-presets.html).
 
 ## Mask Properties
 

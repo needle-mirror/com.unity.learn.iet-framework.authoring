@@ -91,7 +91,7 @@ Notice that as you edit a Page's title, its ScriptableObject gets renamed too.
 
 ![](images/TutorialPage_OneParagraph.png)
 
-There are five different [paragraph types](https://docs.unity3d.com/Packages/com.unity.learn.iet-framework@latest?subfolder=/manual/tutorial-pages.html#paragraphs) to choose from. Feel free to add paragraphs of different types at this point, to get a feeling for the available options.
+There are five different [paragraph types](https://docs.unity3d.com/Packages/com.unity.learn.iet-framework@latest/manual/tutorial-pages.html#paragraphs) to choose from. Feel free to add paragraphs of different types at this point, to get a feeling for the available options.
 
 ## Testing the tutorial
 

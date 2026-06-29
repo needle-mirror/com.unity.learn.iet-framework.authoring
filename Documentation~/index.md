@@ -23,6 +23,6 @@ This version of Tutorial Authoring Tools is compatible with the following versio
 
 ## Dependencies
 
-Tutorial Authoring Tools 2.1.0 depends on the following packages:
+Tutorial Authoring Tools 2.0.4 depends on the following packages:
 
-* Tutorial Framework `com.unity.learn.iet-framework` 6.1.0
+* Tutorial Framework `com.unity.learn.iet-framework` 6.0.4
