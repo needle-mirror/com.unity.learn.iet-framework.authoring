@@ -1,7 +1,7 @@
 * [Tutorial Authoring Tools](index.md)
   * [What's new](whats-new.md)
   * [Upgrade guide](upgrade-guide.md)
-* [Project setup](project-setup.md)
+* [Creating tutorials](creating-tutorials.md)
 * Authoring Tools
   * [The Authoring Toolbar](authoring-toolbar.md)
   * [Tutorials Overview Window](overview-window.md)
