@@ -1,4 +1,3 @@
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Unity.Tutorials.Editor;
@@ -26,10 +25,9 @@ namespace Unity.Tutorials.Authoring.Editor
             {
                 GenesisHelper.GetAllTutorials((r) =>
                 {
-                    var ids = r.Select(a => a.lessonId);
-                    foreach (var id in ids)
+                    foreach (GenesisHelper.TutorialProgressStatus status in r)
                     {
-                        GenesisHelper.LogTutorialStatusUpdate(id, " ");
+                        GenesisHelper.LogTutorialStatusUpdate(status.lessonId, " ");
                     }
                     Debug.Log("Lesson statuses cleared");
                     // Refresh the window, if it's open.

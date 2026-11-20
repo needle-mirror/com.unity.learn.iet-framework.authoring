@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using Unity.Tutorials.Editor;
 using UnityEditor;
@@ -30,10 +29,20 @@ namespace Unity.NAME.Editor
             string[] movedAssets,
             string[] movedFromAssetPaths)
         {
-            if (importedAssets.Any(asset =>
-                    asset.EndsWith(".po", StringComparison.OrdinalIgnoreCase) &&
-                    asset.StartsWith(k_MonitoredPath))
-                )
+            bool poFileImported = false;
+            foreach (string asset in importedAssets)
+            {
+                if (!asset.EndsWith(".po", StringComparison.OrdinalIgnoreCase) ||
+                    !asset.StartsWith(k_MonitoredPath))
+                {
+                    continue;
+                }
+
+                poFileImported = true;
+                break;
+            }
+
+            if (poFileImported)
             {
                 TutorialWindowUtils.ClearLocalizationCache();
                 Translator.TranslateAll();
@@ -71,9 +80,14 @@ namespace Unity.NAME.Editor
         {
             UnsubscribeFromModifications();
 
-            FindAssets<TutorialWelcomePage>().ToList().ForEach(TranslateTutorialWelcomePage);
-            FindAssets<TutorialContainer>().ToList().ForEach(TranslateTutorialContainer);
-            FindAssets<Tutorial>().ToList().ForEach(TranslateTutorial);
+            foreach (TutorialWelcomePage welcomePage in FindAssets<TutorialWelcomePage>())
+                TranslateTutorialWelcomePage(welcomePage);
+
+            foreach (TutorialContainer container in FindAssets<TutorialContainer>())
+                TranslateTutorialContainer(container);
+
+            foreach (Tutorial tutorial in FindAssets<Tutorial>())
+                TranslateTutorial(tutorial);
 
             SubscribeToModifications();
         }
@@ -162,50 +176,55 @@ namespace Unity.NAME.Editor
             const BindingFlags bindedTypes = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
             var localizableStringType = typeof(LocalizableString);
             int numNewTranslations = 0;
-            obj.GetType().GetProperties(bindedTypes)
-                .Where(pi => pi.PropertyType == localizableStringType && pi.CanWrite)
-                .ToList()
-                .ForEach(pi =>
-                {
-                    var str = pi.GetValue(obj) as LocalizableString;
-                    var oldTranslation = str.Translated;
-                    str.Translated = Localization.Tr(str.Untranslated);
+            foreach (PropertyInfo pi in obj.GetType().GetProperties(bindedTypes))
+            {
+                if (pi.PropertyType != localizableStringType || !pi.CanWrite)
+                    continue;
+
+                LocalizableString str = pi.GetValue(obj) as LocalizableString;
+                string oldTranslation = str.Translated;
+                str.Translated = Localization.Tr(str.Untranslated);
 #if DEBUG_PRINTS
-                    Debug.Log($"was '{str.Untranslated}' is '{str.Translated}'");
+                Debug.Log($"was '{str.Untranslated}' is '{str.Translated}'");
 #endif
-                    pi.SetValue(obj, str);
+                pi.SetValue(obj, str);
 
-                    if (oldTranslation.IsNotNullOrEmpty() && str.Translated != oldTranslation)
-                    {
-                        ++numNewTranslations;
-                    }
-                });
-
-            obj.GetType().GetFields(bindedTypes)
-                .Where(fi => fi.FieldType == localizableStringType)
-                .ToList()
-                .ForEach(fi =>
+                if (oldTranslation.IsNotNullOrEmpty() && str.Translated != oldTranslation)
                 {
-                    var str = fi.GetValue(obj) as LocalizableString;
-                    var oldTranslation = str.Translated;
-                    str.Translated = Localization.Tr(str.Untranslated);
-#if DEBUG_PRINTS
-                    Debug.Log($"was '{str.Untranslated}' is '{str.Translated}'");
-#endif
-                    fi.SetValue(obj, str);
+                    ++numNewTranslations;
+                }
+            }
 
-                    if (oldTranslation.IsNotNullOrEmpty() && str.Translated != oldTranslation)
-                    {
-                        ++numNewTranslations;
-                    }
-                });
+            foreach (FieldInfo fi in obj.GetType().GetFields(bindedTypes))
+            {
+                if (fi.FieldType != localizableStringType)
+                    continue;
+
+                LocalizableString str = fi.GetValue(obj) as LocalizableString;
+                string oldTranslation = str.Translated;
+                str.Translated = Localization.Tr(str.Untranslated);
+#if DEBUG_PRINTS
+                Debug.Log($"was '{str.Untranslated}' is '{str.Translated}'");
+#endif
+                fi.SetValue(obj, str);
+
+                if (oldTranslation.IsNotNullOrEmpty() && str.Translated != oldTranslation)
+                {
+                    ++numNewTranslations;
+                }
+            }
 
             return numNewTranslations;
         }
 
-        static IEnumerable<T> FindAssets<T>() where T : UnityEngine.Object =>
-            AssetDatabase.FindAssets($"t:{typeof(T).FullName}")
-                .Select(AssetDatabase.GUIDToAssetPath)
-                .Select(AssetDatabase.LoadAssetAtPath<T>);
+        static IEnumerable<T> FindAssets<T>() where T : UnityEngine.Object
+        {
+            string[] guids = AssetDatabase.FindAssets($"t:{typeof(T).FullName}");
+            List<T> assets = new List<T>(guids.Length);
+            foreach (string guid in guids)
+                assets.Add(AssetDatabase.LoadAssetAtPath<T>(AssetDatabase.GUIDToAssetPath(guid)));
+
+            return assets;
+        }
     }
 }

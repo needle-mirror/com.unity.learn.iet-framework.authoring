@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -34,7 +34,17 @@ namespace Unity.Tutorials.Authoring.Editor
                 return;
             }
 
-            if (SupportedLanguages.Values.Any(code => File.Exists($"{poFolderPath}/{code}.po")))
+            bool anyPoFileExists = false;
+            foreach (string languageCode in SupportedLanguages.Values)
+            {
+                if (!File.Exists($"{poFolderPath}/{languageCode}.po"))
+                    continue;
+
+                anyPoFileExists = true;
+                break;
+            }
+
+            if (anyPoFileExists)
             {
                 var title = "Localization";
                 var msg = "The folder contains translation files already, they will be overwritten.";
@@ -79,10 +89,13 @@ namespace Unity.Tutorials.Authoring.Editor
             }
 
             // Get rid of duplicate msgids, omit empty msgids as they can cause problems for some PO editors
-            var uniqueEntries = entries
-                .Where(entry => entry.IsValid())
-                .GroupBy(entry => entry.ID)
-                .Select(group => group.FirstOrDefault());
+            HashSet<string> seenIDs = new();
+            List<POEntry> uniqueEntries = new();
+            foreach (POEntry entry in entries)
+            {
+                if (entry.IsValid() && seenIDs.Add(entry.ID))
+                    uniqueEntries.Add(entry);
+            }
 
             foreach (var code in SupportedLanguages.Values)
             {
@@ -170,33 +183,39 @@ namespace Unity.Tutorials.Authoring.Editor
             EditorWindowUtils.SetEditorMainWindowPos(pos);
         }
 
-        static IEnumerable<T> FindAssets<T>() where T : Object =>
-            AssetDatabase.FindAssets($"t:{typeof(T).FullName}")
-                .Select(AssetDatabase.GUIDToAssetPath)
-                .Select(AssetDatabase.LoadAssetAtPath<T>);
+        static IEnumerable<T> FindAssets<T>() where T : UnityEngine.Object => TutorialEditorUtils.FindAssets<T>();
 
         static IEnumerable<POEntry> ExtractFieldsAndPropertiesForLocalization(object obj)
         {
             const BindingFlags bindedTypes = BindingFlags.Instance | BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic;
-            var localizableStringType = typeof(LocalizableString);
+            Type localizableStringType = typeof(LocalizableString);
+            List<POEntry> localizableEntries = new();
 
-            var localizableProps = obj.GetType().GetProperties(bindedTypes)
-                .Where(pi => pi.PropertyType == localizableStringType && pi.CanWrite)
-                .Select(pi => new POEntry
+            foreach (PropertyInfo pi in obj.GetType().GetProperties(bindedTypes))
+            {
+                if (pi.PropertyType != localizableStringType || !pi.CanWrite)
+                    continue;
+
+                localizableEntries.Add(new POEntry
                 {
                     Reference = $"{obj.GetType().Name}.{pi.Name}",
                     ID = (pi.GetValue(obj) as LocalizableString).Untranslated
                 });
+            }
 
-            var localizableFields = obj.GetType().GetFields(bindedTypes)
-                .Where(fi => fi.FieldType == localizableStringType)
-                .Select(fi => new POEntry
+            foreach (FieldInfo fi in obj.GetType().GetFields(bindedTypes))
+            {
+                if (fi.FieldType != localizableStringType)
+                    continue;
+
+                localizableEntries.Add(new POEntry
                 {
                     Reference = $"{obj.GetType().Name}.{fi.Name}",
                     ID = (fi.GetValue(obj) as LocalizableString).Untranslated
                 });
+            }
 
-            return localizableProps.Concat(localizableFields);
+            return localizableEntries;
         }
 
         [MenuItem(MenuItems.AuthoringMenuPath + "Upgrade Tutorial Data to v6")]
